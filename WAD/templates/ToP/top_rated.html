@@ -1,0 +1,26 @@
+{% extends 'ToP/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	Top Rated
+{% endblock %}
+
+{% block body %}
+<div>
+	<strong>Top rated page works!</strong>
+</div>
+<!-- <div class="col-lg-6">
+<h4>Top Rated Playlists</h4>
+<p>
+	{% if playlists %}
+	<ul class="list-group">
+		{% for playlist in playlists %}
+		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<strong>There are no playlists present.</strong>
+	{% endif %}
+</p>
+</div> -->
+{% endblock %}

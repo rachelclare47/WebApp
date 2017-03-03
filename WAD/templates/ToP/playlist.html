@@ -1,0 +1,37 @@
+{% extends 'ToP/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	PlaylistName
+	<!-- {{ playlist.name }} -->
+{% endblock %}
+
+{% block body %}
+<p>
+	<strong>Playlist view page works!</strong>
+</p>
+<!--	{% if playlist %}
+		<h1>{{ playlist.name }}</h1>
+
+		{% if songs %}
+			<ul>
+				{% for song in songs %}
+					<li>Title: {{ song.title }}<br/>Artist: {{ song.artist }}<br/>Genre: {{ song.genre}}<br/></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<strong>No songs currently in playlist.</strong>
+		{% endif %}
+		{% if user.is_authenticated %}
+			Rango says: <strong>Rate this playlist!</strong>
+			<form id="user_form" method="post" action="{% url 'rate' %}" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ user_form.as_p }}
+				{{ profile_form.as_p }}
+				<input type="submit" name="submit" value="Rate" />
+        	</form>
+		{% endif %}
+    {% else %}
+		The specified playlist does not exist!
+	{% endif %} -->
+{% endblock %}
