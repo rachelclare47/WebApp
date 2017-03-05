@@ -14,3 +14,10 @@ def most_listened(request):
 
 def show_playlist(request):
     return render(request, 'ToP/playlist.html')
+
+def login(request):
+    return render(request, 'ToP/login.html')
+
+def register(request):
+	return render(request, 'ToP/register.html')
+	
