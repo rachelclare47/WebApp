@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-<p>
+<p class="lead">
 	<strong>My Playlists is functional</strong>
 </p>
 <!-- <div class="col-lg-6">
@@ -14,16 +14,16 @@
 <p>
 	{% if playlists %}
 	
-	{% if Playlist.author == user.name %}
+		{% if Playlist.author == user.name %}
 	
-	<ul class="list-group">
-		{% for playlist in user_playlists %}
-		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
-		{% endfor %}
-	</ul>
-	{% else %}
-		<strong>There are no playlists present.</strong>
-	{% endif %}
+		<ul class="list-group">
+			{% for playlist in user_playlists %}
+				<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
+			{% endfor %}
+		</ul>
+		{% else %}
+			<strong>There are no playlists present.</strong>
+		{% endif %}
 	{% endif %}
 </p>
 </div> -->

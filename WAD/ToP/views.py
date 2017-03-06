@@ -25,7 +25,7 @@ def my_playlists(request):
 
 """@login_required"""
 def create_playlists(request):
-    form = PlaylistForm()
+    """form = PlaylistForm()
 
     if request.method == 'POST':
         form=PlaylistForm(request.POST)
@@ -35,9 +35,9 @@ def create_playlists(request):
 
             return home(request)
         else:
-            print(form.errors)
+            print(form.errors)"""
             
-    return render(request,'ToP/create_playlist.html', {'form': form})
+    return render(request, 'ToP/create_playlist.html')
 
 """@login_required"""
 def add_Song(request):
