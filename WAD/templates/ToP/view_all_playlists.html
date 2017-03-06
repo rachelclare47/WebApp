@@ -1,0 +1,26 @@
+{% extends 'ToP/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	View All Playlists 
+{% endblock %}
+
+{% block body %}
+<p>
+	<strong>View All Playlists is functional</strong>
+</p>
+<!-- <div class="col-lg-6">
+<h4>Most Listened Playlists</h4>
+<p>
+	{% if playlists %}
+	<ul class="list-group">
+		{% for playlist in playlists %}
+		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<strong>There are no playlists present.</strong>
+	{% endif %}
+</p>
+</div> -->
+{% endblock %}

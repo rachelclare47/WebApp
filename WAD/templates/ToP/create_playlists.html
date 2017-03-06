@@ -1,0 +1,19 @@
+{% extends 'ToP/base.css' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Create New Playlist
+{% endblock %}
+
+{% block body_block %}
+	<h1>Create A New Playlist</h1>
+	
+	<form id="create_playlist_form" method="post" actions="{%url 'create_playlist' %}"
+		enctype="multipart/form-data">
+
+	{% csrf_token %}
+
+	{{ create_playlist_form.as_p}}
+		<input type="submit" name="submit value="Created Playlist" />
+		</form>
+{% endblock %}
