@@ -5,16 +5,21 @@
 {% endblock %}
 	
 {% block body %}
-<h1>Login to Top of the Playlists</h1>
+
 <br/>
-<form id="login_form" method="post" action="{% url 'login' %}">
+<form class="signin-form" role="form" method="post" action="{% url 'login' %}">
 	{% csrf_token %}
-	Username: <input type="text" name="username" value="" size="50" />
+	<label for="inputUsername" class="sr-only">Username</label>
+	<h2 class="form-signin-heading">Login to Top of the Playlists</h2>
 	<br/>
-	
-	Password: <input type="text" name="password" value="" size="50" />
+	<input type="text" name="username" id="id_username" class="form-control" placeholder="Username" required autofocus/>
 	<br/>
-	<input type="submit" value="Login" />
+	<label for="inputPassword" class="sr-only">Password</label>
+	<input type="password" name="password" id="id_password" class="form-control" placeholder="Password" required autofocus/>
+	<br/>
+	<p class="lead">
+		<input class="btn btn-lg btn-secondary" type="submit" value="Login"/>
+	</p>
 </form>
 
 {% endblock %}
