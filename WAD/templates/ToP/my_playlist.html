@@ -1,0 +1,29 @@
+{% extends 'ToP/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+	My Playlists 
+{% endblock %}
+
+{% block body %}
+<p>
+	<strong>My Playlists is functional</strong>
+</p>
+<!-- <div class="col-lg-6">
+<h4>My Playlists</h4>
+<p>
+	{% if playlists %}
+	
+	{% if Playlist.author == user.name %}
+	
+	<ul class="list-group">
+		{% for playlist in user_playlists %}
+		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<strong>There are no playlists present.</strong>
+	{% endif %}
+</p>
+</div> -->
+{% endblock %}

@@ -10,6 +10,7 @@ class Playlist(models.Model):
     views = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='profile_images',blank=True)
+    author= models.OneToOneField(Playlist_Author)
     def __str__(self):
         return self.name
 

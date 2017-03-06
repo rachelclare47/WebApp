@@ -15,6 +15,7 @@ def most_listened(request):
 def show_playlist(request):
     return render(request, 'ToP/playlist.html')
 
+
 def view_all_playlists(request):
     return render(request, 'ToP/view_all_playlists.html')
 
@@ -53,3 +54,10 @@ def add_Song(request):
             print(form.errors)
 
     return render(request,'ToP/add_song.html', {'form': form})
+
+def login(request):
+    return render(request, 'ToP/login.html')
+
+def register(request):
+	return render(request, 'ToP/register.html')
+	
