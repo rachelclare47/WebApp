@@ -9,8 +9,10 @@
 <br/>
 <form class="signin-form" role="form" method="post" action="{% url 'login' %}">
 	{% csrf_token %}
+	<P class="lead">
+	<h2 class="form-signin-heading">Login</h2>
+	</p>
 	<label for="inputUsername" class="sr-only">Username</label>
-	<h2 class="form-signin-heading">Login to Top of the Playlists</h2>
 	<br/>
 	<input type="text" name="username" id="id_username" class="form-control" placeholder="Username" required autofocus/>
 	<br/>
