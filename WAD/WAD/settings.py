@@ -31,6 +31,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# If true, users can register
+REGISTRATION_OPEN = True
+# One-week activation window
+ACCOUNT_ACTIVATION_DAYS = 7
+# If true, the users will be automatically logged in
+REGISTRATION_AUTO_LOGIN = True
+# The page you want users to arrive at after they successfully log in.
+LOGIN_REDIRECT_URL = '/ToP/'
+# The page users are redirected to if they are not logged in
+# and are trying to access pages that require authentication.
+LOGIN_URL = '/accounts/login/'
 
 # Application definition
 
@@ -42,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ToP',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +71,7 @@ ROOT_URLCONF = 'WAD.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR, ],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,3 +135,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+

@@ -17,9 +17,18 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from ToP import views
+from registration.backends.simple.views import RegistrationView
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return '/ToP/'
+
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^ToP/', include('ToP.urls')),
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    ]

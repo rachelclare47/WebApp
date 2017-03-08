@@ -10,7 +10,5 @@ urlpatterns = [
     url(r'^create_playlists/$', views.create_playlists, name='create_playlists'),
     url(r'^my_playlists/$', views.my_playlists, name='my_playlists'),
     url(r'^view_all_playlists/$', views.view_all_playlists, name='view_all_playlists'),
-    url(r'^login/$', views.login, name='login'),
-    url(r'^register/$', views.register, name='register'),
 ]
 
