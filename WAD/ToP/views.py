@@ -1,17 +1,23 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
 from ToP.models import Playlist, Song
+from django.contrib.auth import logout, authenticate
+from django.core.urlresolvers import reverse
+
 
 def home(request):
     return render(request, 'ToP/home.html')
+
 
 def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
+
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
+
 
 def show_playlist(request, playlist_name_slug):
     context_dict = {}
@@ -42,9 +48,11 @@ def view_all_playlists(request):
     
     return render(request, 'ToP/view_all_playlists.html', context_dict)
 
+
 """@login_required"""
 def my_playlists(request):
     return render(request, 'ToP/my_playlist.html')
+
 
 """@login_required"""
 def create_playlists(request):
@@ -61,6 +69,7 @@ def create_playlists(request):
             print(form.errors)"""
             
     return render(request, 'ToP/create_playlist.html')
+
 
 """@login_required"""
 def add_Song(request):
@@ -170,3 +179,8 @@ def user_login(request):
     # This scenario would most likely be a HTTP GET
     else:
         return render, 'registration/auth_login.html', {}
+
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('home'))
