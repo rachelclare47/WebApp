@@ -4,10 +4,10 @@ from ToP.models import Playlist, Song, UserProfile
 
 
 class PlaylistForm(forms.ModelForm):
+
     class Meta:
         model=Playlist
-        fields=('Name','Picture','Songs','Username','Views','Rating')
-
+        fields=('name','picture','author','views','rating','slug')
 
 
 class SongForm(forms.ModelForm):
