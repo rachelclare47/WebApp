@@ -14,9 +14,14 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
+<<<<<<< HEAD
 
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
+=======
+def most_viewed(request):
+    return render(request, 'ToP/most_viewed.html')
+>>>>>>> d45f3b50742873ffd9953e6d8681f4a40b678bab
 
 
 def show_playlist(request, playlist_name_slug):
