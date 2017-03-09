@@ -4,7 +4,7 @@ from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
 from ToP.models import Playlist, Song
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
-
+from datetime import datetime
 
 def home(request):
     return render(request, 'ToP/home.html')
