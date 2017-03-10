@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
-from ToP.models import Playlist, Song
+from ToP.models import Playlist, Song, User
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
@@ -26,7 +26,7 @@ def most_viewed(request):
 def show_playlist(request, playlist_name_slug):
     context_dict = {}
     try:
-        # Can we find a playlist with the given name slug? 
+        # Can we find a playlist with the given name slug?
         # If not, .get() method raises a DoesNotExist exception
         # If yes, .get() returns one model instance
         playlist = Playlist.objects.get(slug=playlist_name_slug)
@@ -222,4 +222,6 @@ def visitor_cookie_handler(request):
         request.session['last_visit']= last_visit_cookie
 
     request.session['visits']=visits
-    
+
+
+def password_change(request):
