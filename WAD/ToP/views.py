@@ -4,7 +4,7 @@ from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
 from ToP.models import Playlist, Song
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
-
+from datetime import datetime
 
 def home(request):
     return render(request, 'ToP/home.html')
@@ -13,9 +13,17 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
+<<<<<<< HEAD
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
+=======
+
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
+
+
+>>>>>>> aff045ad7040d4abad5ec5be52ecdf2ba99abe87
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
 
@@ -37,6 +45,12 @@ def show_playlist(request, playlist_name_slug):
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
         context_dict['songs'] = None
+
+    visitor_cookie_handler(request)
+    context_dict['visits']=request.session['visits']
+    
+    response = render(request, 'ToP/.html',context=context_dict)
+    views = forms.IntegerField(context_dict['visits'], initial=0)
         
     return render(request, 'ToP/playlist.html', context_dict)
 
@@ -194,3 +208,32 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
+
+
+
+def get_server_side_cookie(request,cookie,default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
+def visitor_cookie_handler(request):
+    #Gets the number of views of the site
+    #If the cookie exists, the string value is cast to an integer value and returned
+    #Otherwise 1 is used as the default value
+    visits = int(get_server_side_cookie(request,'visits','1'))
+    last_visit_cookie = get_server_side_cookie(request,
+                                               'last_visit',
+                                               str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+                                        '%Y-%m-%d %H:%M:%S')
+    
+    if (datetime.now() - last_visit_time).days>0:
+        visits=visits+1
+        request.session['last_visit']=str(datetime.now())
+    else:
+        visits = 1
+        request.session['last_visit']= last_visit_cookie
+
+    request.session['visits']=visits
+    

@@ -4,6 +4,7 @@ from ToP.models import Playlist, Song, UserProfile
 
 
 class PlaylistForm(forms.ModelForm):
+<<<<<<< HEAD
     name = forms.CharField(max_length=128, help_text="Please enter the playlist name.")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     rating = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
@@ -18,6 +19,12 @@ class PlaylistForm(forms.ModelForm):
         # Provide an association between the ModelForm and a model
         model = Playlist
         fields = ('name', 'picture', 'author',)
+=======
+
+    class Meta:
+        model=Playlist
+        fields=('name','picture','author','views','rating','slug')
+>>>>>>> aff045ad7040d4abad5ec5be52ecdf2ba99abe87
 
 
 class SongForm(forms.ModelForm):
