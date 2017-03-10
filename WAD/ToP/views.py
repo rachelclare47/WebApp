@@ -9,16 +9,21 @@ from datetime import datetime
 def home(request):
     return render(request, 'ToP/home.html')
 
-
 def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
+<<<<<<< HEAD
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
+
+=======
 
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
 
+>>>>>>> aff045ad7040d4abad5ec5be52ecdf2ba99abe87
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
 
@@ -65,37 +70,46 @@ def my_playlists(request):
 
 
 """@login_required"""
-def create_playlists(request):
-    """form = PlaylistForm()
+def create_playlist(request):
+    form = PlaylistForm()
 
     if request.method == 'POST':
-        form=PlaylistForm(request.POST)
+        form = PlaylistForm(request.POST)
 
+        # Valid form?
         if form.is_valid():
             form.save(commit=True)
-
             return home(request)
         else:
-            print(form.errors)"""
+            print(form.errors)
             
-    return render(request, 'ToP/create_playlist.html')
+    # Render form with error messages, if any
+    return render(request, 'ToP/create_playlist.html', {'form': form})
 
 
 """@login_required"""
-def add_Song(request):
+def add_song(request, playlist_name_slug):
+    try:
+        playlist = Playlist.objects.get(slug=playlist_name_slug)
+    except Playlist.DoesNotExist:
+        playlist = None
+        
     form = SongForm()
-
+    
     if request.method == 'POST':
-        form=SongForm(request.POST)
+        form = SongForm(request.POST)
 
         if form.is_valid():
-            form.save(commit=True)
-
-            return create_playlist(request)
+            if playlist:
+                song = form.save(commit=False)
+                song.playlists = playlist
+                song.save()
+                return show_playlist(request, playlist_name_slug)
         else:
             print(form.errors)
 
-    return render(request,'ToP/add_song.html', {'form': form})
+    context_dict = {'form': form, 'playlist': playlist}
+    return render(request, 'ToP/add_song.html', context_dict)
 
 
 def register(request):
