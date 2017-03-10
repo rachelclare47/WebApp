@@ -2,23 +2,23 @@
 {% load staticfiles %}
 
 {% block title %}
-	Create New Playlist
+	Top of the Playlists!
 {% endblock %}
 
 {% block body %}
-<p class="lead"><strong>Create playlist works!</strong></p>
-	<!--
-
-	<p class="lead">Create A New Playlist</p>
-	
-	<form id="create_playlist_form" method="post" actions="."
-		enctype="multipart/form-data">
-
-	{% csrf_token %}
-
-	{{ create_playlist_form.as_p}}
-		<input type="submit" name="submit value="Created Playlist" />
+    <h1 clas="lead">Create a New Playlist</h1>
+	<div>
+	    <form id="create_playlist_form" method="post" actions="/ToP/create_playlist/" enctype="multipart/form-data">
+	        {% csrf_token %}
+			{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+			{% endfor %}
+			{% for field in form.visible_fields %}
+				{{ field.errors }}
+				{{ field.help_text }}
+				{{ field }}
+			{% endfor %}
+		    <input type="submit" name="submit" value="Create Playlist" />
 		</form>
-		
-	-->
+    </div>
 {% endblock %}
