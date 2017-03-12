@@ -8,6 +8,7 @@
 {% block body %}
     {% if playlist %}
 		<h1>{{ playlist.name }}</h1>
+		<strong> Views: </strong>{{ visits }}<br/>
 
 		{% if songs %}
 			<ul>

@@ -42,12 +42,10 @@ def show_playlist(request, playlist_name_slug):
         context_dict['songs'] = None
 
     visitor_cookie_handler(request)
-    response = render(request, 'ToP/playlist.html',context=context_dict)
-    """
     context_dict['visits']=request.session['visits']
-    views = forms.IntegerField(context_dict['visits'], initial=0)"""
-        
-    return render(request, 'ToP/playlist.html', context_dict)
+    response = render(request, 'ToP/playlist.html',context=context_dict)
+ 
+    return response
 
 
 def view_all_playlists(request):
