@@ -14,10 +14,16 @@
 			<ul>
 				{% for song in songs %}
 					<li>
+					
 					Title: {{ song.title }}<br/>
 					Artist: {{ song.artist }}<br/>
 					Genre: {{ song.genre}}<br/>
-					{{ song.album_art }}
+					<!-- Custom styles for this template -->
+					<link href={% static "css/image_format.css" %} rel="stylesheet">
+					
+					<img src="{{ ARTIST_MEDIA_URL }}{{ song.art }} "height='135' width='auto'
+					
+					
 					</li>
 				{% endfor %}
 			</ul>

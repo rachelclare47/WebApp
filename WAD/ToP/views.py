@@ -8,7 +8,8 @@ from datetime import datetime
 import spotipy
 import sys
 import urllib
-
+import os
+import shutil
 spotify = spotipy.Spotify()
 
 
@@ -43,6 +44,14 @@ def show_playlist(request, playlist_name_slug):
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
 
+        #Flushes the artist art folder to prevent build up of unecessary art
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
+            shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
+            os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
+        elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
+            os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
+
         #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
         #each song. This is called song.album_art
         for song in songs:
@@ -51,9 +60,11 @@ def show_playlist(request, playlist_name_slug):
             if len(items) > 0:
                 artist = items[0]
             song.album_art =artist['images'][0]['url']
-            testfile = urllib.URLopener()  
-            art=testfile.retrieve(song.album_art,str(song.artist)+"_art.jpg")
-        context_dict['album_art']=art
+
+            testfile = urllib.URLopener()
+            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+            song.art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+        context_dict['album_art']=song.art
             
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us

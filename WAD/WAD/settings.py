@@ -17,12 +17,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+ARTIST_MEDIA_DIR = os.path.join(MEDIA_DIR, 'artist_art')
 
 
 STATICFILES_DIRS = [STATIC_DIR, ]
 STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = '/media/'
+ARTIST_MEDIA_ROOT = ARTIST_MEDIA_DIR
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -142,3 +144,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+
+ARTIST_MEDIA_URL = '/artist_art/'
