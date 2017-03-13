@@ -5,6 +5,11 @@ from ToP.models import Playlist, Song
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
+import spotipy
+import sys
+
+spotify = spotipy.Spotify()
+
 
 def home(request):
     return render(request, 'ToP/home.html')
@@ -36,13 +41,27 @@ def show_playlist(request, playlist_name_slug):
         # Add filtered list to dict
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
+
+        #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
+        #each song. This is called song.album_art
+        for song in songs:
+            results = spotify.search(q='artist:' + song.artist, type='artist')
+            items = results['artists']['items']
+            if len(items) > 0:
+                artist = items[0]
+            song.album_art = artist['name'], artist['images'][0]['url']
+        context_dict['album_art']=song.album_art
+            
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
         context_dict['songs'] = None
 
+
     visitor_cookie_handler(request)
     context_dict['visits']=request.session['visits']
+
+    #sends the response to the template
     response = render(request, 'ToP/playlist.html',context=context_dict)
  
     return response
@@ -203,12 +222,12 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 
-
 def get_server_side_cookie(request,cookie,default_val=None):
     val = request.session.get(cookie)
     if not val:
         val = default_val
     return val
+
 
 def visitor_cookie_handler(request):
     #Gets the number of views of the site

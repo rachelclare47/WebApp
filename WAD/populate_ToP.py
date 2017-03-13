@@ -13,26 +13,27 @@ def populate():
 	chill_songs = [
 		{"title": "Little Talks",
 		 "artist": "Of Monsters and Men",
-		 "genre": "Indie"},
+		 "genre": "Indie",},
 		{"title": "Tru",
 		 "artist": "Lloyd",
-		 "genre": "R&B/Soul"} ]
+		 "genre": "R&B/Soul",} ]
 	
 	hiphop_songs = [
 		{"title": "Rap God",
 		 "artist": "Eminem",
-		 "genre": "Hip Hop"},
+		 "genre": "Hip Hop",},
 		{"title": "Still D.R.E",
-		 "artist": "Dr Dre ft. Snoop Dogg",
-		 "genre": "Hip Hop"} ]
+		 "artist": "Dr Dre",
+		 "genre": "Hip Hop",} ]
 	
 	kpop_songs = [
 		{"title": "Spy",
 		 "artist": "Super Junior",
-		 "genre": "K-Pop"},
+		 "genre": "K-Pop",
+                 "artist_image":""},
 		{"title": "I NEED U",
 		 "artist": "BTS",
-		 "genre": "K-Pop"} ]
+		 "genre": "K-Pop",} ]
 	
 	playlists = {"Chill": {"songs": chill_songs},
 				 "Hip Hop": {"songs": hiphop_songs},
