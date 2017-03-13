@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 import spotipy
 import sys
+import urllib
 
 spotify = spotipy.Spotify()
 
@@ -49,8 +50,10 @@ def show_playlist(request, playlist_name_slug):
             items = results['artists']['items']
             if len(items) > 0:
                 artist = items[0]
-            song.album_art = artist['name'], artist['images'][0]['url']
-        context_dict['album_art']=song.album_art
+            song.album_art =artist['images'][0]['url']
+            testfile = urllib.URLopener()  
+            art=testfile.retrieve(song.album_art,str(song.artist)+"_art.jpg")
+        context_dict['album_art']=art
             
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
