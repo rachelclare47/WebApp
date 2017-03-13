@@ -53,15 +53,23 @@ def show_playlist(request, playlist_name_slug):
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
 
         #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
-        #each song. This is called song.album_art
+        #each song. This is called song.artist_art
+        checksum=""
+        check_artist=songs[0].artist
+        testfile = urllib.URLopener()
         for song in songs:
             results = spotify.search(q='artist:' + song.artist, type='artist')
             items = results['artists']['items']
             if len(items) > 0:
                 artist = items[0]
+            
             song.artist_art =artist['images'][0]['url']
-
-            testfile = urllib.URLopener()
+            if song.artist_art == checksum and song.artist!=check_artist:
+                song.artist_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                checksum=song.artist_art
+            else:
+                checksum=song.artist_art
+                
             testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
             song.art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
         context_dict['album_art']=song.art
