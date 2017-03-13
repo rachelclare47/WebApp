@@ -59,10 +59,10 @@ def show_playlist(request, playlist_name_slug):
             items = results['artists']['items']
             if len(items) > 0:
                 artist = items[0]
-            song.album_art =artist['images'][0]['url']
+            song.artist_art =artist['images'][0]['url']
 
             testfile = urllib.URLopener()
-            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+            testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
             song.art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
         context_dict['album_art']=song.art
             
