@@ -13,17 +13,15 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
-<<<<<<< HEAD
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-=======
 
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
 
->>>>>>> aff045ad7040d4abad5ec5be52ecdf2ba99abe87
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
+
+
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
 
@@ -49,7 +47,7 @@ def show_playlist(request, playlist_name_slug):
     visitor_cookie_handler(request)
     context_dict['visits']=request.session['visits']
     
-    response = render(request, 'ToP/.html',context=context_dict)
+    response = render(request, 'ToP/playlist.html',context=context_dict)
     views = forms.IntegerField(context_dict['visits'], initial=0)
         
     return render(request, 'ToP/playlist.html', context_dict)
