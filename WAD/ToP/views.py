@@ -5,6 +5,12 @@ from ToP.models import Playlist, Song
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
+import spotipy
+import sys
+import urllib
+import os
+import shutil
+spotify = spotipy.Spotify()
 
 def home(request):
     return render(request, 'ToP/home.html')
@@ -13,7 +19,6 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
-
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
@@ -21,6 +26,12 @@ def most_listened(request):
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
+
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
+
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
 
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
@@ -39,10 +50,63 @@ def show_playlist(request, playlist_name_slug):
         # Add filtered list to dict
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
+
+        #Flushes the artist art folder to prevent build up of unecessary art
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
+            shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
+            os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
+        elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
+            os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
+
+        #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
+        #each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
+        # the last chosen album art) the program checks with the checksum(the url of the previously used album art)
+        # and if this is the same as the new url, a default image is used
+        checksum=""
+        album_checksum=""
+        check_artist=songs[0].artist
+        testfile = urllib.URLopener()
+
+        #Artist Art
+        for song in songs:
+            results = spotify.search(q='artist:' + song.artist, type='artist')
+            items = results['artists']['items']
+            if len(items) > 0:
+                artist = items[0]
+            song.artist_art =artist['images'][0]['url']
+            if song.artist_art == checksum and song.artist!=check_artist:
+                song.artist_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                checksum=song.artist_art
+            else:
+                checksum=song.artist_art
+            testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+
+            #Album Art
+            results = spotify.search(q='album:' + song.title, type='album')
+            items = results['albums']['items']
+            for item in items:
+                if item.get(song.artist)==song.artist:
+                    album = item
+                else:
+                    album = items[0]
+                song.album_art =album['images'][0]['url']
+                if song.album_art == checksum and song.artist!=check_artist:
+                    song.album_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                    album_checksum=song.album_art
+                else:
+                    album_checksum=song.album_art
+                testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
+                song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
+                context_dict['album_art']=song.album_art
+                
+        context_dict['artist_art']=song.artist_art
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
         context_dict['songs'] = None
+
 
     visitor_cookie_handler(request)
     context_dict['visits']=request.session['visits']
@@ -208,12 +272,12 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('home'))
 
 
-
 def get_server_side_cookie(request,cookie,default_val=None):
     val = request.session.get(cookie)
     if not val:
         val = default_val
     return val
+
 
 def visitor_cookie_handler(request):
     #Gets the number of views of the site
