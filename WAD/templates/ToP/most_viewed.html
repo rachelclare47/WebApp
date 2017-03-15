@@ -11,12 +11,16 @@
 		<strong>Most Viewed page works!</strong>
 	</p>
 </div>
-<!-- <div class="col-lg-6">
+<<div class="col-lg-6">
 <h4>Most Viewed Playlists</h4>
 <p>
+	<var>most</var>
 	{% if playlists %}
 	<ul class="list-group">
 		{% for playlist in playlists %}
+		{% if playlist.views > most}
+		most=playlist
+		{% endif %}
 		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
 		{% endfor %}
 	</ul>
@@ -24,5 +28,5 @@
 		<strong>There are no playlists present.</strong>
 	{% endif %}
 </p>
-</div> -->
+</div>
 {% endblock %}
