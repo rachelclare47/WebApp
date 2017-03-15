@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.conf.urls import include
 from ToP import views
 from registration.backends.simple.views import RegistrationView
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
@@ -33,4 +34,4 @@ urlpatterns = [
     url(r'^accounts/password/reset_complete/$', views.password_reset_complete, name = 'password_reset_complete'),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    ]
+    ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

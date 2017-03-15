@@ -11,18 +11,20 @@
 		<strong>Most Viewed page works!</strong>
 	</p>
 </div>
-<!-- <div class="col-lg-6">
-<h4>Most Viewed Playlists</h4>
-<p>
-	{% if playlists %}
-	<ul class="list-group">
-		{% for playlist in playlists %}
-		<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
-		{% endfor %}
-	</ul>
-	{% else %}
-		<strong>There are no playlists present.</strong>
-	{% endif %}
-</p>
-</div> -->
+<<div class="col-lg-6">
+<div>
+	<h3>Most Viewed Pages</h3>	
+		</div>
+		<ul>
+	       	   {% if playlists %}
+             	
+	              {% for playlist in playlists %}
+	                 <li><a href="{{ playlist.url }}">{{ playlist.name }}</a></li>
+	                 {% endfor %}
+	             </ul>
+	        {% else %}
+	             <strong>There are no playlists present.</strong>
+	        {% endif %}
+				</div>
+		<div>
 {% endblock %}

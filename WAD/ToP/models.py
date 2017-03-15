@@ -30,7 +30,7 @@ class Song(models.Model):
     def __str__(self):
         return self.title
     def __unicode__(self):
-        return self.name
+        return self.title
     
 class UserProfile(models.Model):
     # Links UserProfile to a User model instance
