@@ -5,7 +5,6 @@ from ToP.models import Playlist, Song, User
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
-<<<<<<< HEAD
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url, urlsafe_base64_decode
 from django.shortcuts import resolve_url
@@ -19,32 +18,30 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
 
-=======
 import spotipy
 import sys
 import urllib
 import os
 import shutil
 spotify = spotipy.Spotify()
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
+
 
 def home(request):
     return render(request, 'ToP/home.html')
 
 
 def top_rated(request):
-	playlist_list=Playlist.objects.order_by("ratings")[:10]
+	playlist_list=Playlist.objects.order_by("rating")[:40]
 	print playlist_list
 	context_dict = {'playlists' : playlist_list}
 	response = render(request,'ToP/top_rated.html', context=context_dict)
-    return response
+	return response
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
-=======
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
+def most_listened(request):
+    return render(request, 'ToP/most_listened.html')
+
+
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
@@ -52,17 +49,9 @@ def most_listened(request):
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
-
-<<<<<<< HEAD
-=======
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
->>>>>>> 9824668c9bf7562378e842c4e3b71f0b56c48307
-
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
 def most_viewed(request):
 	playlist_list=Playlist.objects.order_by("views")[:40]
 	print playlist_list
