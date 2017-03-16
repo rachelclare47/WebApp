@@ -16,25 +16,20 @@ def home(request):
     return render(request, 'ToP/home.html')
 
 def top_rated(request):
-    # create context_dict here to pass playlists sorted by rates into template
-    return render(request, 'ToP/top_rated.html')
+	playlist_list=Playlist.objects.order_by("ratings")[:10]
+	print playlist_list
+	context_dict = {'playlists' : playlist_list}
+	response = render(request,'ToP/top_rated.html', context=context_dict)
+    return response
 
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
 
 def most_viewed(request):
-    return render(request, 'ToP/most_viewed.html')
+	playlist_list=Playlist.objects.order_by("views")[:40]
+	print playlist_list
+	context_dict = {'playlists' : playlist_list}
+	response = render(request,'ToP/most_viewed.html', context=context_dict)
+	return response
+	
 
 
 def show_playlist(request, playlist_name_slug):
