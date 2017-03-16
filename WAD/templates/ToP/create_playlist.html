@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-	Top of the Playlists!
+	Create a playlist!
 {% endblock %}
 
 {% block body %}
@@ -18,7 +18,10 @@
 				{{ field.help_text }}
 				{{ field }}
 			{% endfor %}
-		    <input type="submit" name="submit" value="Create Playlist" />
+			<div>
+			<br/>
+		    <input type="submit" name="submit" value="Create Playlist" class="btn btn-sedondary" />
+			</div>
 		</form>
     </div>
 {% endblock %}
