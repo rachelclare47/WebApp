@@ -30,8 +30,8 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^ToP/', include('ToP.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/password/reset/$', views.password_reset, {'template_name': 'registration/password_reset_form.html'}),
-    url(r'^accounts/password/reset_complete/$', views.password_reset_complete, name = 'password_reset_complete'),
+    url(r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.password_reset, {'template_name': 'registration/password_reset_form.html'}),
+    url(r'^accounts/password/reset_complete/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.password_reset_complete, name='password_reset_complete'),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,6 @@ from ToP.models import Playlist, Song, User
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
-<<<<<<< HEAD
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url, urlsafe_base64_decode
 from django.shortcuts import resolve_url
@@ -18,15 +17,16 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
+from django import forms
 
-=======
+
 import spotipy
 import sys
 import urllib
 import os
 import shutil
 spotify = spotipy.Spotify()
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
+
 
 def home(request):
     return render(request, 'ToP/home.html')
@@ -36,27 +36,11 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
-<<<<<<< HEAD
-
-=======
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
 
 def most_listened(request):
     return render(request, 'ToP/most_listened.html')
 
 
-<<<<<<< HEAD
-=======
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
 
@@ -339,6 +323,7 @@ def password_reset(request,
                    html_email_template_name = None):
     if post_reset_redirect is None:
         post_reset_redirect = reverse('password_reset_complete')
+        print post_reset_redirect
     else:
         post_reset_redirect = resolve_url(post_reset_redirect)
     if request.method == 'POST':
@@ -365,7 +350,7 @@ def password_reset(request,
         }
         if extra_context is not None:
             context.update(extra_context)
-        return HttpResponseRedirect(request, template_name, context)
+        return render(request, template_name, context)
 
 
 def password_reset_done(request,

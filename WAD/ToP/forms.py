@@ -27,10 +27,7 @@ class PlaylistForm(forms.ModelForm):
     class Meta:
         model=Playlist
         fields=('name','picture','author','views','rating','slug')
-<<<<<<< HEAD
 
-=======
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
