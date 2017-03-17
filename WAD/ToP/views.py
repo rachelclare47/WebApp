@@ -148,7 +148,7 @@ def my_playlists(request):
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 
-"""@login_required"""
+@login_required
 def create_playlist(request):
     form = PlaylistForm()
     
