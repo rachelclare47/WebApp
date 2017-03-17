@@ -140,13 +140,11 @@ def view_all_playlists(request):
 
 # This view is basically like viewing the current user's profile
 @login_required
-def my_playlists(request, username):
-    # Get the current user's username
-    user = User.objects.get(username=username)
+def my_playlists(request):
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
     # List placed into context dictionary that is passed into template engine
-    context_dict = {'playlists': playlist_list, 'user': user}
+    context_dict = {'playlists': playlist_list}
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 
