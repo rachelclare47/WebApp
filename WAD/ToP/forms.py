@@ -17,7 +17,7 @@ class PlaylistForm(forms.ModelForm):
     picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
     ##############################################################
     # FIGURE OUT HOW TO PUT USER URL IN INITIAL HIDDEN FIELD
-    author = forms.CharField(widget=forms.HiddenInput())
+    author = forms.CharField(widget=forms.HiddenInput(), initial=User.username)
     ##############################################################
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     

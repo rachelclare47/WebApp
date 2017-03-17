@@ -166,7 +166,7 @@ def create_playlist(request):
     return render(request, 'ToP/create_playlist.html', {'form': form})
 
 
-"""@login_required"""
+@login_required
 def add_song(request, playlist_name_slug):
     try:
         playlist = Playlist.objects.get(slug=playlist_name_slug)

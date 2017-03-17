@@ -5,7 +5,7 @@ from ToP.models import UserProfile
 
 class PlaylistAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug':('name',)}
-	def save_model(self, request, instance, form, change):
+	'''def save_model(self, request, instance, form, change):
 		user = request.user
 		instance = form.save(commit=False)
 		if not change or not instance.author:
@@ -13,7 +13,7 @@ class PlaylistAdmin(admin.ModelAdmin):
 		instance.modified_by = user
 		instance.save()
 		form.save_m2m()
-		return instance
+		return instance'''
 
 
 class SongAdmin(admin.ModelAdmin):

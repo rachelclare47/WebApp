@@ -26,7 +26,7 @@ class Playlist(models.Model):
     # Author will be user that created the playlist, it is hidden 
     # and used to filter all playlists by just the one's created by the logged in user
     ###############################
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, null=True)
     #################################
     slug = models.SlugField(unique=True)
     
