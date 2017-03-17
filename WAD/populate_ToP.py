@@ -35,9 +35,9 @@ def populate():
 		 "artist": "BTS",
 		 "genre": "K-Pop",} ]
 	
-	playlists = {"Chill": {"songs": chill_songs},
-				 "Hip Hop": {"songs": hiphop_songs},
-				 "K-Pop": {"songs": kpop_songs} }
+	playlists = {   "Chill": {"songs": chill_songs},
+                        "Hip Hop": {"songs": hiphop_songs},
+			"K-Pop": {"songs": kpop_songs} }
 	
 	# Code below goes through playlists dictionary, then adds each playlist
 	# and adds all associated songs to that playlist

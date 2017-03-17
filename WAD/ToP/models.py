@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 class Playlist(models.Model):
+    
     name = models.CharField(max_length=128, unique=True)
     views = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
@@ -17,9 +18,6 @@ class Playlist(models.Model):
     
     def __str__(self):
         return self.name
-    def __unicode__(self):
-        return self.name
-
 
 class Song(models.Model):
     playlists = models.ForeignKey(Playlist)

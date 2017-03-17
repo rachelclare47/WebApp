@@ -39,27 +39,6 @@ def top_rated(request):
 	response = render(request,'ToP/top_rated.html', context=context_dict)
 	return response
 
-<<<<<<< HEAD
-=======
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
->>>>>>> eb0f9ee40700ee8c7766a664fd641da5d3db1787
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-<<<<<<< HEAD
-=======
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
->>>>>>> eb0f9ee40700ee8c7766a664fd641da5d3db1787
 def most_viewed(request):
 	playlist_list=Playlist.objects.order_by("views")[:40]
 	print playlist_list
@@ -85,12 +64,12 @@ def show_playlist(request, playlist_name_slug):
 
         #Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
+        """if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
         elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
-
+        """
         #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
         #each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
         # the last chosen album art) the program checks with the checksum(the url of the previously used album art)
@@ -108,11 +87,12 @@ def show_playlist(request, playlist_name_slug):
                 artist = items[0]
             song.artist_art =artist['images'][0]['url']
             if song.artist_art == checksum and song.artist!=check_artist:
-                song.artist_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                 checksum=song.artist_art
             else:
                 checksum=song.artist_art
-            testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+            if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
+                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
             song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
 
             #Album Art
@@ -129,7 +109,8 @@ def show_playlist(request, playlist_name_slug):
                     album_checksum=song.album_art
                 else:
                     album_checksum=song.album_art
-                testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
+                if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):
+                    testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
                 song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
                 context_dict['album_art']=song.album_art
                 
@@ -166,9 +147,9 @@ def my_playlists(request):
 """@login_required"""
 def create_playlist(request):
     form = PlaylistForm()
-
+    
     if request.method == 'POST':
-        form = PlaylistForm(request.POST)
+        form = PlaylistForm(request.POST,request.FILES)
 
         # Valid form?
         if form.is_valid():
