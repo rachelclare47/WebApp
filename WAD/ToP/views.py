@@ -1,32 +1,31 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
-from ToP.models import Playlist, Song, User
+from ToP.models import Playlist, Song, UserProfile
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
-<<<<<<< HEAD
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url, urlsafe_base64_decode
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
     logout as auth_logout, get_user_model, update_session_auth_hash)
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
-
-=======
+from django import forms
 import spotipy
 import sys
 import urllib
 import os
 import shutil
 spotify = spotipy.Spotify()
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
+
 
 def home(request):
     return render(request, 'ToP/home.html')
@@ -36,27 +35,7 @@ def top_rated(request):
     # create context_dict here to pass playlists sorted by rates into template
     return render(request, 'ToP/top_rated.html')
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-<<<<<<< HEAD
-=======
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
->>>>>>> b6ddd107c369e597745c60db40fa4b1370aae0a9
 def most_viewed(request):
     return render(request, 'ToP/most_viewed.html')
 
@@ -150,9 +129,16 @@ def view_all_playlists(request):
     return render(request, 'ToP/view_all_playlists.html', context_dict)
 
 
-"""@login_required"""
-def my_playlists(request):
-    return render(request, 'ToP/my_playlist.html')
+# This view is basically like viewing the current user's profile
+@login_required
+def my_playlists(request, username):
+    # Get the current user's username
+    user = User.objects.get(username=username)
+    # Get a list of all playlists currently stored and order by name ascending
+    playlist_list = Playlist.objects.order_by('name')
+    # List placed into context dictionary that is passed into template engine
+    context_dict = {'playlists': playlist_list, 'user': user}
+    return render(request, 'ToP/my_playlist.html', context_dict)
 
 
 """@login_required"""

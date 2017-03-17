@@ -38,8 +38,10 @@
 						<a class="nav-link" href="/ToP/top-rated/">Top 40</a>
 						<a class="nav-link" href="/ToP/most_viewed/">Most Viewed</a>
 						<a class="nav-link" href="/ToP/view_all_playlists/">View All</a>
-						<a class="nav-link" href="/ToP/my_playlists/">My Playlists</a>
-						<a class="nav-link" href="/ToP/create_playlist/">Create Playlist</a>
+            {% if user.is_authenticated %}
+						    <a class="nav-link" href="{% url 'my_playlists' %}">My Playlists</a>
+						    <a class="nav-link" href="/ToP/create_playlist/">Create Playlist</a>
+            {% endif %}
 						
 					</nav>
 				</div>
