@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth.models import User
-from ToP.models import Playlist, Song, UserProfile
+from ToP.models import Playlist, Song, UserProfile,Comment
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -17,7 +17,7 @@ class PlaylistForm(forms.ModelForm):
     picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
     ##############################################################
     # FIGURE OUT HOW TO PUT USER URL IN INITIAL HIDDEN FIELD
-    author = forms.CharField(widget=forms.HiddenInput(), initial=User.username)
+    author = forms.CharField(widget=forms.HiddenInput(), initial=User )
     ##############################################################
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     
@@ -25,6 +25,12 @@ class PlaylistForm(forms.ModelForm):
         # Provide an association between the ModelForm and a model
         model = Playlist
         fields = ('name', 'picture',)
+
+class CommentForm(forms.ModelForm):
+   
+    class Meta:
+        model = Comment
+        fields = ('author','text',)
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
@@ -134,3 +140,5 @@ class SetPasswordForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+

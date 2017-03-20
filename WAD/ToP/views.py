@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm
+from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm,CommentForm
 from ToP.models import Playlist, Song, UserProfile
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
@@ -60,7 +60,7 @@ def show_playlist(request, playlist_name_slug):
         # Add filtered list to dict
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
-
+    
         #Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         """if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
@@ -127,6 +127,21 @@ def show_playlist(request, playlist_name_slug):
     views = forms.IntegerField(context_dict['visits'], initial=0)
         
     return render(request, 'ToP/playlist.html', context_dict)
+
+@login_required
+def add_comment_to_playlist(request, playlist_name_slug):
+    playlist  = Playlist.objects.get(slug=playlist_name_slug)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.playlist = playlist
+            print playlist
+            comment.save()
+            return show_playlist(request, playlist_name_slug)
+    else:
+        form = CommentForm()
+    return render(request, 'ToP/add_comment_to_playlist.html', {'form': form})
 
 
 def view_all_playlists(request):
