@@ -148,6 +148,21 @@ def add_comment_to_playlist(request, playlist_name_slug):
         form = CommentForm()
     return render(request, 'ToP/add_comment_to_playlist.html', {'form': form})
 
+@login_required
+def add_rating(request, playlist_name_slug):
+	playlist = Playlist.objects.get(slug=playlist_name_slug)
+	if request.method == "POST":
+		form = RatingForm(request.POST)
+		if form.is_valid():
+			rating = form.save(commit=False)
+			rating.playlist = playlist
+			print playlist
+			rating.save()
+			return show_playlist(request, playlist_name_slug)
+	else:
+		form = RatingForm()
+	return render(request, 'ToP/add_rating.html', {'form' : form})
+
 
 def view_all_playlists(request):
     # Get a list of all playlists currently stored and order by name ascending

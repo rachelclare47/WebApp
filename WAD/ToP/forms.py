@@ -32,6 +32,14 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('author','text',)
 
+"""		
+class RatingForm(forms.ModelForm)
+	
+	class Meta:
+	model = Rating
+	fields = ('author')
+"""
+
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
     artist = forms.CharField(max_length=128, help_text="Please enter the artist of the song.")

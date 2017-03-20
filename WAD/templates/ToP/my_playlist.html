@@ -2,38 +2,31 @@
 {% load staticfiles %}
 
 {% block title %}
-	My Playlists - {{ user.username }}
+	{{ user.username }}
 {% endblock %}
 
 {% block body %}
+<div class="col-lg-12">
+    <h4>My Playlists</h4>
 
-<a href="{url '/accounts/password_change/'}" class="nav-link">Change Password</a>
-<div class="col-lg-6">
-
-    {% if user.is_authenticated %}
-        <h1>{{ user.username }}, welcome to your playlists</h1>
+	{% if user.is_authenticated %}
+	<h1>{{ user.username }}, welcome to your playlists</h1>
+	<a href="{url 'auth_password_change'}" class="nav-link">Change Password</a>
+	    {% if playlists %}
+		    <ul class="list-group">
+			    {% for playlist in playlists %}
+				    {% if playlist.author == user.username %}
+				        <li class="list-group-item">
+						    <a href="/ToP/playlist/{{ playlist.slug }}">{{ playlist.name }}</a>
+				        </li>
+				    {% endif %}
+			    {% endfor %}
+		    </ul>
+	    {% else %}
+		    <strong>There are no playlists present.</strong>
+	    {% endif %}
     {% else %}
         <strong>You are not logged in. Please go to the home page and log in first.</strong>
     {% endif %}
-
-<a href="{url 'auth_password_change'}" class="nav-link">Change Password</a>
-<div class="col-lg-6">
-
-<h4>My Playlists</h4>
-<p>
-	{% if playlists %}
-	
-		{% if Playlist.author == user.username %}
-	
-		<ul class="list-group">
-			{% for playlist in user_playlists %}
-				<li class="list-group-item"><a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></li>
-			{% endfor %}
-		</ul>
-		{% else %}
-			<strong>There are no playlists present.</strong>
-		{% endif %}
-	{% endif %}
-</p>
 </div>
 {% endblock %}
