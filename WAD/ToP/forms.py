@@ -15,15 +15,13 @@ class PlaylistForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     rating = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
-    ##############################################################
     author = forms.CharField(max_length=128, help_text = "Please enter your username.")
-    ##############################################################
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Playlist
-        fields = ('name', 'picture',)
+        fields = ('name', 'picture', 'author',)
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")

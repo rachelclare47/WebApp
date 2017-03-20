@@ -23,11 +23,7 @@ class Playlist(models.Model):
     views = models.IntegerField(default=0)
     rating = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='playlist_images',blank=True)
-    # Author will be user that created the playlist, it is hidden 
-    # and used to filter all playlists by just the one's created by the logged in user
-    ###############################
-    author = models.CharField(max_length=128, default="wadteam1")
-    #################################
+    author = models.CharField(max_length=128, unique=False, blank=False)
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
