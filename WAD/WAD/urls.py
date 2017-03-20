@@ -19,6 +19,9 @@ from ToP import views
 from registration.backends.simple.views import RegistrationView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import password_reset
+
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
@@ -26,11 +29,15 @@ class MyRegistrationView(RegistrationView):
 
 
 urlpatterns = [
+    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^accounts/password_change/$', auth_views.password_change, name='password_change'),
+    url(r'^accounts/password_change/done/$', auth_views.password_change_done, name='password_change_done'),
+    url(r'^accounts/password_reset/$', auth_views.password_reset, name='password_reset'),
+    url(r'^accounts/password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
+    url(r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^accounts/reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^$', views.home, name='home'),
     url(r'^ToP/', include('ToP.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.password_reset, {'template_name': 'registration/password_reset_form.html'}),
-    url(r'^accounts/password/reset_complete/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.password_reset_complete, name='password_reset_complete'),
-    url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,9 +11,9 @@
 		<p class="lead">Top of the Playlists is a resource for all music lovers to share their favourite playlists.</p>
 		{% if user.is_authenticated %}
 		<p class="lead">Welcome, {{ user.username }}. You are now logged in!</p>
-		<a href="{% url 'auth_logout' %}" class="btn btn-lg btn-secondary">Logout</a>
+		<a href="{% url 'auth_logout' %}?next=/ToP" class="btn btn-secondary">Logout</a>
 		{% else %}
-            <a href="{% url 'registration_register' %}" class="btn btn-lg btn-secondary"/>Register Here!</a>
+            <a href="{% url 'registration_register' %}" class="btn btn-secondary"/>Register Here!</a>
 		{% endif %}
     </div>
 	
