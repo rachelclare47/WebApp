@@ -1,6 +1,5 @@
 from django.contrib import admin
-from ToP.models import Playlist, Song
-from ToP.models import UserProfile
+from ToP.models import Playlist, Song, UserProfile
 
 
 class PlaylistAdmin(admin.ModelAdmin):
@@ -13,7 +12,12 @@ class PlaylistAdmin(admin.ModelAdmin):
 		instance.modified_by = user
 		instance.save()
 		form.save_m2m()
-		return instance'''
+		return instance
+	
+	def save_model(self, request, obj, form, change):
+		if getattr(obj, 'author', None) is None:
+			obj.author = request.user
+		obj.save()'''
 
 
 class SongAdmin(admin.ModelAdmin):
