@@ -15,14 +15,11 @@ class PlaylistForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     rating = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
-<<<<<<< HEAD
     ##############################################################
     # FIGURE OUT HOW TO PUT USER URL IN INITIAL HIDDEN FIELD
     author = forms.CharField(max_length=128, help_text = "Please enter your username.")
-    ##############################################################
-=======
-    author = forms.CharField(max_length=128, help_text = "Please enter your username.")
->>>>>>> a54e01b7e0a4b9142866772f67569a4725e0ea6c
+    #############################################################
+
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:

@@ -75,47 +75,49 @@ def show_playlist(request, playlist_name_slug):
         # and if this is the same as the new url, a default image is used
         checksum=""
         album_checksum=""
-        for song in songs:
-            if song==None:
-                check_artist=songs[0].artist
         testfile = urllib.URLopener()
+        for song in songs:
+            if song!=None:
+                check_artist=songs[0].artist
+        
 
         #Artist Art
         for song in songs:
-            results = spotify.search(q='artist:' + song.artist, type='artist')
-            items = results['artists']['items']
-            if len(items) > 0:
-                artist = items[0]
-            song.artist_art =artist['images'][0]['url']
-            if song.artist_art == checksum and song.artist!=check_artist:
-                song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
-                checksum=song.artist_art
-            else:
-                checksum=song.artist_art
-            if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
-                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
-            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+            if song!=None:
+                results = spotify.search(q='artist:' + song.artist, type='artist')
+                items = results['artists']['items']
+                if len(items) > 0:
+                    artist = items[0]
+                song.artist_art =artist['images'][0]['url']
+                if song.artist_art == checksum and song.artist!=check_artist:
+                    song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
+                    checksum=song.artist_art
+                else:
+                    checksum=song.artist_art
+                if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
+                    testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+                song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
 
-            #Album Art
-            results = spotify.search(q='album:' + song.title, type='album')
-            items = results['albums']['items']
-            for item in items:
-                if item.get(song.artist)==song.artist:
-                    album = item
-                else:
-                    album = items[0]
-                song.album_art =album['images'][0]['url']
-                if song.album_art == checksum and song.artist!=check_artist:
-                    song.album_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
-                    album_checksum=song.album_art
-                else:
-                    album_checksum=song.album_art
-                if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):
-                    testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
-                song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
-                context_dict['album_art']=song.album_art
+                #Album Art
+                results = spotify.search(q='album:' + song.title, type='album')
+                items = results['albums']['items']
+                for item in items:
+                    if item.get(song.artist)==song.artist:
+                        album = item
+                    else:
+                        album = items[0]
+                    song.album_art =album['images'][0]['url']
+                    if song.album_art == checksum and song.artist!=check_artist:
+                        song.album_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                        album_checksum=song.album_art
+                    else:
+                        album_checksum=song.album_art
+                    if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):
+                        testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
+                    song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
+                    context_dict['album_art']=song.album_art
                 
-        context_dict['artist_art']=song.artist_art
+            context_dict['artist_art']=song.artist_art
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
