@@ -90,7 +90,7 @@ def show_playlist(request, playlist_name_slug):
                       artist = items[0]
                   song.artist_art =artist['images'][0]['url']
                   if song.artist_art == checksum and song.artist!=check_artist:
-                      song.artist_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                      song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                       checksum=song.artist_art
                   else:
                       checksum=song.artist_art
@@ -109,7 +109,7 @@ def show_playlist(request, playlist_name_slug):
                           album = items[0]
                       song.album_art =album['images'][0]['url']
                       if song.album_art == checksum and song.artist!=check_artist:
-                          song.album_art="https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
+                          song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                           album_checksum=song.album_art
                       else:
                           album_checksum=song.album_art
