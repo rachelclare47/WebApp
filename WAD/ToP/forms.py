@@ -16,8 +16,12 @@ class PlaylistForm(forms.ModelForm):
     rating = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
     ##############################################################
+<<<<<<< HEAD
     # FIGURE OUT HOW TO PUT USER URL IN INITIAL HIDDEN FIELD
     author = forms.CharField(widget=forms.HiddenInput(), initial=User )
+=======
+    author = forms.CharField(max_length=128, help_text = "Please enter your username.")
+>>>>>>> 9b9c0d6457a3da97112b37b9b2f992b5a16b457a
     ##############################################################
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     
