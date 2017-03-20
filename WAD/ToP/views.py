@@ -75,7 +75,9 @@ def show_playlist(request, playlist_name_slug):
         # and if this is the same as the new url, a default image is used
         checksum=""
         album_checksum=""
-        check_artist=songs[0].artist
+        for song in songs:
+            if song==None:
+                check_artist=songs[0].artist
         testfile = urllib.URLopener()
 
         #Artist Art
