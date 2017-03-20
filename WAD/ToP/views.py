@@ -94,7 +94,9 @@ def show_playlist(request, playlist_name_slug):
                       checksum=song.artist_art
                   else:
                       checksum=song.artist_art
-                  testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+
+                  if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
+                        testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
                   song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
 
                   #Album Art
@@ -111,7 +113,9 @@ def show_playlist(request, playlist_name_slug):
                           album_checksum=song.album_art
                       else:
                           album_checksum=song.album_art
-                      testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
+
+                      if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):        
+                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
                       song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
                       context_dict['album_art']=song.album_art
                       
