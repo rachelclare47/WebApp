@@ -2,21 +2,27 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth.models import User
-from ToP.models import Playlist, Song, UserProfile
+from ToP.models import Playlist, Song, UserProfile,Comment
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class PlaylistForm(forms.ModelForm):
     name = forms.CharField(max_length=128, help_text="Please enter the playlist name.")
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     rating = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    picture = forms.ImageField()
+    picture = forms.ImageField(initial=BASE_DIR+" \media\\vinyl-883199_960_720.png")
+<<<<<<< HEAD
     ##############################################################
     # FIGURE OUT HOW TO PUT USER URL IN INITIAL HIDDEN FIELD
-    author = forms.URLField(widget=forms.HiddenInput(), initial="https://ToP/admin/user")
+    author = forms.CharField(max_length=128, help_text = "Please enter your username.")
     ##############################################################
+=======
+    author = forms.CharField(max_length=128, help_text = "Please enter your username.")
+>>>>>>> a54e01b7e0a4b9142866772f67569a4725e0ea6c
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     class Meta:
@@ -24,10 +30,11 @@ class PlaylistForm(forms.ModelForm):
         model = Playlist
         fields = ('name', 'picture', 'author',)
 
+class CommentForm(forms.ModelForm):
+   
     class Meta:
-        model=Playlist
-        fields=('name','picture','author','views','rating','slug')
-
+        model = Comment
+        fields = ('author','text',)
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
@@ -137,3 +144,5 @@ class SetPasswordForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+

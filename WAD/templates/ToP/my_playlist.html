@@ -2,20 +2,31 @@
 {% load staticfiles %}
 
 {% block title %}
-	My Playlists 
+	My Playlists - {{ user.username }}
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 <p class="lead">
 	<strong>My Playlists is functional</strong>
 </p>
 <a href="{url '/accounts/password_change/'}" class="nav-link">Change Password</a>
 <!-- <div class="col-lg-6">
+=======
+    {% if user.is_authenticated %}
+        <h1>{{ user.username }}, welcome to your playlists</h1>
+    {% else %}
+        <strong>You are not logged in. Please go to the home page and log in first.</strong>
+    {% endif %}
+
+<!--<a href="{url 'auth_password_change'}" class="nav-link">Change Password</a>
+<div class="col-lg-6">
+>>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 <h4>My Playlists</h4>
 <p>
 	{% if playlists %}
 	
-		{% if Playlist.author == user.name %}
+		{% if Playlist.author == user.username %}
 	
 		<ul class="list-group">
 			{% for playlist in user_playlists %}
@@ -27,5 +38,5 @@
 		{% endif %}
 	{% endif %}
 </p>
-</div> -->
+</div>-->
 {% endblock %}

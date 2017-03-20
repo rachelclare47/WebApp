@@ -16,12 +16,25 @@
 					<li>
 					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }} "height='135' width='auto'>
 					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto'><br/>
-					Title: {{ song.title }}<br/>
-					Artist: {{ song.artist }}<br/>
+					{{ song.title }}
+					by {{ song.artist }}<br/>
 					Genre: {{ song.genre}}<br/>
 					</li>
 				{% endfor %}
 			</ul>
+			<hr>
+			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
+			{% for comment in Comment %}
+				{% if playlist.comment={{ playlist.slug }} }
+					<div class="comment">
+						<div class="date">{{ comment.created_date }}</div>
+						<strong>{{ comment.author }}</strong>
+						<p>{{ comment.text|linebreaks }}</p>
+					
+					</div>
+			{% empty %}
+				<p>No comments </p>
+			{% endfor %}
 		{% else %}
 			<strong>No songs currently in playlist.</strong>
 		{% endif %}
