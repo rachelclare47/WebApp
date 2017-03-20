@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^my_playlists/$', views.my_playlists, name='my_playlists'),
     url(r'^view_all_playlists/$', views.view_all_playlists, name='view_all_playlists'),
     url(r'playlist/(?P<playlist_name_slug>[\w\-]+)/comment/$', views.add_comment_to_playlist),
+    url(r'playlist/(?P<playlist_name_slug>[\w\-]+)/rating/$', views.add_rating),
 ]
 
