@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-
+from django.utils import timezone
     
 class UserProfile(models.Model):
     # Links UserProfile to a User model instance
@@ -44,3 +44,17 @@ class Song(models.Model):
         return self.title
     def __unicode__(self):
         return self.title
+
+
+
+class Comment(models.Model):
+    playlist = models.ForeignKey(Playlist, related_name='comment',null=True)
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False)
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+    def __str__(self):
+        return self.text
