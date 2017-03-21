@@ -3,6 +3,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WAD.settings')
 import django
 django.setup()
 from ToP.models import Playlist, Song
+
 def populate():
 	# Lists of dictionaries containing the Songs we want to add
 	# into each playlist.
@@ -36,7 +37,7 @@ def populate():
 	
 	playlists = {   "Chill": {"songs": chill_songs},
                         "Hip Hop": {"songs": hiphop_songs},
-			"K-Pop": {"songs": kpop_songs}
+			"K-Pop": {"songs": kpop_songs} }
 	
 	# Code below goes through playlists dictionary, then adds each playlist
 	# and adds all associated songs to that playlist

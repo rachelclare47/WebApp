@@ -9,6 +9,8 @@
     {% if playlist %}
 		{% if playlist.picture %}
 			<img src="{{ playlist.picture.url }} "height='135' width='auto'></br>
+		{% else %}
+			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='135' width='auto'></br>
 		{% endif %}
 		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>

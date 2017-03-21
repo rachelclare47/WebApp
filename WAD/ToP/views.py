@@ -35,10 +35,10 @@ def home(request):
 
 
 def top_rated(request):
-      playlist_list = Playlist.objects.order_by("rating")[:40]
-      context_dict = {'playlists': playlist_list}
-      response = render(request, 'ToP/top_rated.html', context=context_dict)
-      return response
+    playlist_list = Playlist.objects.order_by("rating")[:40]
+    context_dict = {'playlists': playlist_list}
+    response = render(request, 'ToP/top_rated.html', context=context_dict)
+    return response
 
 def most_viewed(request):
     playlist_list = Playlist.objects.order_by("views")[:40]

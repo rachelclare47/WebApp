@@ -162,3 +162,9 @@ body {
     width: 42rem;
   }
 }
+
+img {
+  object-fit: cover;
+  width:230px;
+  height:230px;
+}
