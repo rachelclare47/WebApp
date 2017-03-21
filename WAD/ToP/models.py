@@ -50,7 +50,7 @@ class Song(models.Model):
 
 class Comment(models.Model):
     playlist = models.ForeignKey('ToP.Playlist', related_name='comments',null=True)
-    author = models.CharField(max_length=200)
+    author = models.CharField(max_length=128, unique=False)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)

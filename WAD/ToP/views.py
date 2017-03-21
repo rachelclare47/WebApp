@@ -114,9 +114,9 @@ def show_playlist(request, playlist_name_slug):
                       else:
                           album_checksum=song.album_art
 
-                      if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.album)+"_art.jpg"):        
-                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.album)+"_art.jpg")
-                      song.album_art='\media\\'+"artist_art\\"+str(song.album)+"_art.jpg"
+                      if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):        
+                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg")
+                      song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
                       context_dict['album_art']=song.album_art
                       
               context_dict['artist_art']=song.artist_art
@@ -140,8 +140,8 @@ def add_comment_to_playlist(request, playlist_name_slug):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.author=request.user.username
             comment.playlist = playlist
-            print playlist
             comment.save()
             return show_playlist(request, playlist_name_slug)
     else:
@@ -183,10 +183,10 @@ def my_playlists(request):
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 @login_required
-def	create_playlist(request):
+def create_playlist(request):
 	form =	PlaylistForm()
 	
-	if	request.method == 'POST':
+	if request.method == 'POST':
 		form = PlaylistForm(request.POST,request.FILES)
 		
 		#	Valid form?

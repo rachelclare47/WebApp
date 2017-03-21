@@ -20,9 +20,9 @@ def populate():
              "genre": "R&B/Soul",} ]
             
 	hiphop_songs = [
-		{"title": "Rap God",
+		{"title": "The Real Slim Shady",
 		 "artist": "Eminem",
-                 'album': "The Marshall Mathers LP 2",
+                 'album': "The Marshall Mathers LP",
 		 "genre": "Hip Hop",},
 		{"title": "Still D.R.E",
 		 "artist": "Dr Dre",
@@ -33,10 +33,6 @@ def populate():
 		{"title": "Spy",
 		 "artist": "Super Junior",
                  'album': "Sexy, Free & Single",
-		 "genre": "K-Pop",},
-		{"title": "I NEED U",
-		 "artist": "BTS",
-                 'album': "The Most Beautiful Moment in Life, Part 1",
 		 "genre": "K-Pop",} ]
 	
 	playlists = {   "Chill": {"songs": chill_songs},
@@ -49,7 +45,7 @@ def populate():
 	for pl, playlist_data in playlists.items():
 		p = add_playlist(pl)
 		for song in playlist_data["songs"]:
-			add_song(p, song["title"], song["artist"], song["genre"])
+			add_song(p, song["title"], song["artist"],song["album"], song["genre"])
 	
 	# Print out the playlists we have added
 	
@@ -57,9 +53,10 @@ def populate():
 		for song in Song.objects.filter(playlists=p):
 			print("- {0} - {1}".format(str(p), str(song)))
 			
-def add_song(p, title, artist, genre):
+def add_song(p, title, artist,album, genre):
 	song = Song.objects.get_or_create(playlists=p, title=title)[0]
 	song.artist=artist
+	song.album=album
 	song.genre=genre
 	song.save()
 	return song

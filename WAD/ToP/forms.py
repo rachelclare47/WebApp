@@ -24,6 +24,7 @@ class PlaylistForm(forms.ModelForm):
 		fields = ('name', 'picture', 'author',)
 
 class CommentForm(forms.ModelForm):
+        author = forms.CharField(max_length=128, required=False, widget=forms.HiddenInput())
 	class Meta:
 		model = Comment
 		fields = ('author','text',)

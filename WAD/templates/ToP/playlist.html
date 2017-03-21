@@ -23,6 +23,7 @@
 					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto'><br/>
 					{{ song.title }}
 					by {{ song.artist }}<br/>
+					Album: {{song.album}}<br/>
 					Genre: {{ song.genre}}<br/>
 					</li>
 				{% endfor %}
