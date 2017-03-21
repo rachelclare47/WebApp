@@ -183,21 +183,23 @@ def my_playlists(request):
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 @login_required
-def create_playlist(request):
-    form = PlaylistForm()
-    
-    if request.method == 'POST':
-        form = PlaylistForm(request.POST,request.FILES)
+def	create_playlist(request):
+	form =	PlaylistForm()
+	
+	if	request.method == 'POST':
+		form = PlaylistForm(request.POST,request.FILES)
+		
+		#	Valid form?
+		if form.is_valid():
+			profile = form.save(commit=False)
+			profile.author = request.user.username
+			profile.save()
+			return home(request)
+		else:
+			print(form.errors)
 
-        # Valid form?
-        if form.is_valid():
-            form.save(commit=True)
-            return home(request)
-        else:
-            print(form.errors)
-
-    # Render form with error messages, if any
-    return render(request, 'ToP/create_playlist.html', {'form': form})
+	# Render form with	error messages,	if any
+	return	render(request,	'ToP/create_playlist.html',	{'form': form})
 
 @login_required
 def add_song(request, playlist_name_slug):
