@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm,CommentForm
+from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm
 from ToP.models import Playlist, Song, UserProfile
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
@@ -11,7 +11,7 @@ from django.shortcuts import resolve_url, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
                                  logout as auth_logout, get_user_model, update_session_auth_hash)
-    
+from django.views.generic.edit import FormView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm, PasswordChangeForm
@@ -40,11 +40,13 @@ def top_rated(request):
     response = render(request, 'ToP/top_rated.html', context=context_dict)
     return response
 
+
 def most_viewed(request):
     playlist_list = Playlist.objects.order_by("views")[:40]
     context_dict = {'playlists': playlist_list}
     response = render(request, 'ToP/most_viewed.html', context=context_dict)
     return response
+
 
 def show_playlist(request, playlist_name_slug):
     context_dict = {}
@@ -60,7 +62,7 @@ def show_playlist(request, playlist_name_slug):
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
 
-        #Flushes the artist art folder to prevent build up of unecessary art
+        # Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         """if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
@@ -68,20 +70,20 @@ def show_playlist(request, playlist_name_slug):
         elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
         """
-        
-        #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
-        #each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
+
+        # Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
+        # each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
         # the last chosen album art) the program checks with the checksum(the url of the previously used album art)
         # and if this is the same as the new url, a default image is used
-        checksum=""
-        album_checksum=""
+        checksum = ""
+        album_checksum = ""
         for song in songs:
-              if song!=None:
-                    check_artist=songs[0].artist
-                    break
+            if song != None:
+                check_artist = songs[0].artist
+                break
         testfile = urllib.URLopener()
 
-        #Artist Art
+        # Artist Art
         for song in songs:
               if song!=None:
                   results = spotify.search(q='artist:' + song.artist, type='artist')
@@ -120,22 +122,23 @@ def show_playlist(request, playlist_name_slug):
                       context_dict['album_art']=song.album_art
                       
               context_dict['artist_art']=song.artist_art
+
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
         context_dict['songs'] = None
 
-
     visitor_cookie_handler(request)
-    context_dict['visits']=request.session['visits']
-    
-    response = render(request, 'ToP/playlist.html',context=context_dict)
+    context_dict['visits'] = request.session['visits']
+
+    response = render(request, 'ToP/playlist.html', context=context_dict)
     views = forms.IntegerField(context_dict['visits'], initial=0)
     return render(request, 'ToP/playlist.html', context_dict)
 
+
 @login_required
 def add_comment_to_playlist(request, playlist_name_slug):
-    playlist  = Playlist.objects.get(slug=playlist_name_slug)
+    playlist = Playlist.objects.get(slug=playlist_name_slug)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -148,20 +151,21 @@ def add_comment_to_playlist(request, playlist_name_slug):
         form = CommentForm()
     return render(request, 'ToP/add_comment_to_playlist.html', {'form': form})
 
+
 @login_required
 def add_rating(request, playlist_name_slug):
-	playlist = Playlist.objects.get(slug=playlist_name_slug)
-	if request.method == "POST":
-		form = RatingForm(request.POST)
-		if form.is_valid():
-			rating = form.save(commit=False)
-			rating.playlist = playlist
-			print playlist
-			rating.save()
-			return show_playlist(request, playlist_name_slug)
-	else:
-		form = RatingForm()
-	return render(request, 'ToP/add_rating.html', {'form' : form})
+    playlist = Playlist.objects.get(slug=playlist_name_slug)
+    if request.method == "POST":
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.playlist = playlist
+            print playlist
+            rating.save()
+            return show_playlist(request, playlist_name_slug)
+    else:
+        form = RatingForm()
+    return render(request, 'ToP/add_rating.html', {'form': form})
 
 
 def view_all_playlists(request):
@@ -181,6 +185,7 @@ def my_playlists(request):
     # List placed into context dictionary that is passed into template engine
     context_dict = {'playlists': playlist_list}
     return render(request, 'ToP/my_playlist.html', context_dict)
+
 
 @login_required
 def create_playlist(request):
@@ -471,48 +476,6 @@ def password_reset_complete(request,
     return TemplateResponse(request, template_name, context, current_app=current_app)
 
 
-def ResetPasswordRequest(FormView):
-    template_name = 'account/test_template.html'
-    success_url = '/account/login'
-    form_class = PasswordResetRequestForm
-
-    @staticmethod
-    def validate_email_address(email):
-        try:
-            validate_email(email)
-            return True
-        except ValidationError:
-            return False
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        associated_users = User.objects.filter(Q(email=data) | Q(username=data))
-        if associated_users.exists():
-            for user in aassociated_users:
-                c = {
-                    'email': user.email,
-                    'domain': request.META['HTTP_HOST'],
-                    'site_name': 'your site',
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'user': user,
-                    'token': default_token_generator.make_token(user),
-                    'protocol': 'http',
-                }
-                subject_template_name = 'registration/password_reset_subject.txt'
-                email_template_name = 'registration/password_reset_email.html'
-                subject = loader.render_to_string(subject_template_name, c)
-                subject = ''.join(subject.splitlines())
-                email = loader.render_to_string(email_template_name, c)
-                send_mail(subject, email, DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
-            result = self.form_valid(form)
-            messages.success(request,
-                             'An email has been sent to ' + data + '. Please check your inbox to continue resting your password.')
-            return result
-        result = self.form_invalid(form)
-        messages.error(request, 'No user is associated with this email address.')
-        return result
-
-
 @sensitive_post_parameters()
 @csrf_protect
 @login_required
@@ -526,7 +489,7 @@ def password_change(request,
     else:
         post_change_redirect = resolve_url(post_change_redirect)
     if request.method == "POST":
-        form = password_change_form(user=request.user, data=request.POST)
+        form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             form.save()
             # Updating the password logs out all other sessions for the user
@@ -536,7 +499,7 @@ def password_change(request,
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(post_change_redirect)
     else:
-        form = password_change_form(user=request.user)
+        form = PasswordChangeForm(user=request.user)
     context = {
         'form': form,
         'title': _('Password change'),
@@ -556,5 +519,4 @@ def password_change_done(request,
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+    return render(request, template_name, context)
