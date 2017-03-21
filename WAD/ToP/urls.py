@@ -11,5 +11,7 @@ urlpatterns = [
     url(r'^create_playlist/$', views.create_playlist, name='create_playlist'),
     url(r'^my_playlists/$', views.my_playlists, name='my_playlists'),
     url(r'^view_all_playlists/$', views.view_all_playlists, name='view_all_playlists'),
+    url(r'^password_change/$', views.PasswordChangeView.as_view(), name='password_change'),
+    url(r'^password_change/done/$', views.PasswordChangeDoneView.as_view(), name='password_change_done')
 ]
 

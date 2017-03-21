@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm,CommentForm
+from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm
 from ToP.models import Playlist, Song, UserProfile
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
@@ -10,12 +10,8 @@ from django.utils.http import is_safe_url, urlsafe_base64_decode
 from django.shortcuts import resolve_url, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
-<<<<<<< HEAD
                                  logout as auth_logout, get_user_model, update_session_auth_hash)
-=======
-    logout as auth_logout, get_user_model, update_session_auth_hash)
 from django.contrib.auth.models import User
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.tokens import default_token_generator
@@ -23,12 +19,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
 from django import forms
-<<<<<<< HEAD
 from django.core.mail import send_mail
 
-
-=======
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 import spotipy
 import sys
 import urllib
@@ -43,31 +35,18 @@ def home(request):
 
 
 def top_rated(request):
-<<<<<<< HEAD
     playlist_list = Playlist.objects.order_by("rating")[:40]
     context_dict = {'playlists': playlist_list}
     response = render(request, 'ToP/top_rated.html', context=context_dict)
     return response
 
 
-def most_listened(request):
-    return render(request, 'ToP/most_listened.html')
-
-
-=======
-    # create context_dict here to pass playlists sorted by rates into template
-	playlist_list=Playlist.objects.order_by("rating")[:40]
-	context_dict = {'playlists' : playlist_list}
-	response = render(request,'ToP/top_rated.html', context=context_dict)
-	return response
-
-
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 def most_viewed(request):
     playlist_list = Playlist.objects.order_by("views")[:40]
     context_dict = {'playlists': playlist_list}
     response = render(request, 'ToP/most_viewed.html', context=context_dict)
     return response
+
 
 def show_playlist(request, playlist_name_slug):
     context_dict = {}
@@ -82,7 +61,6 @@ def show_playlist(request, playlist_name_slug):
         # Add filtered list to dict
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
-<<<<<<< HEAD
 
         # Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -99,9 +77,8 @@ def show_playlist(request, playlist_name_slug):
         checksum = ""
         album_checksum = ""
         check_artist = songs[0].artist
-=======
-    
-        #Flushes the artist art folder to prevent build up of unecessary art
+
+        # Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         """if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
@@ -109,16 +86,15 @@ def show_playlist(request, playlist_name_slug):
         elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
         """
-        #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
-        #each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
+        # Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
+        # each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
         # the last chosen album art) the program checks with the checksum(the url of the previously used album art)
         # and if this is the same as the new url, a default image is used
-        checksum=""
-        album_checksum=""
+        checksum = ""
+        album_checksum = ""
         for song in songs:
-            if song==None:
-                check_artist=songs[0].artist
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
+            if song == None:
+                check_artist = songs[0].artist
         testfile = urllib.URLopener()
 
         # Artist Art
@@ -127,7 +103,6 @@ def show_playlist(request, playlist_name_slug):
             items = results['artists']['items']
             if len(items) > 0:
                 artist = items[0]
-<<<<<<< HEAD
             song.artist_art = artist['images'][0]['url']
             if song.artist_art == checksum and song.artist != check_artist:
                 song.artist_art = "https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
@@ -136,17 +111,16 @@ def show_playlist(request, playlist_name_slug):
                 checksum = song.artist_art
             testfile.retrieve(song.artist_art, BASE_DIR + '\media\\' + "artist_art\\" + str(song.artist) + "_art.jpg")
             song.artist_art = '\media\\' + "artist_art\\" + str(song.artist) + "_art.jpg"
-=======
-            song.artist_art =artist['images'][0]['url']
-            if song.artist_art == checksum and song.artist!=check_artist:
-                song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
-                checksum=song.artist_art
+            song.artist_art = artist['images'][0]['url']
+            if song.artist_art == checksum and song.artist != check_artist:
+                song.artist_art = BASE_DIR + "\media\\vinyl-883199_960_720.png"
+                checksum = song.artist_art
             else:
-                checksum=song.artist_art
-            if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
-                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
-            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
+                checksum = song.artist_art
+            if not os.path.exists(BASE_DIR + '\media\\' + "artist_art\\" + str(song.artist) + "_art.jpg"):
+                testfile.retrieve(song.artist_art,
+                                  BASE_DIR + '\media\\' + "artist_art\\" + str(song.artist) + "_art.jpg")
+            song.artist_art = '\media\\' + "artist_art\\" + str(song.artist) + "_art.jpg"
 
             # Album Art
             results = spotify.search(q='album:' + song.title, type='album')
@@ -161,38 +135,36 @@ def show_playlist(request, playlist_name_slug):
                     song.album_art = "https://cdn.pixabay.com/photo/2015/08/10/21/26/vinyl-883199_960_720.png"
                     album_checksum = song.album_art
                 else:
-<<<<<<< HEAD
                     album_checksum = song.album_art
                 testfile.retrieve(song.album_art, BASE_DIR + '\media\\' + "artist_art\\" + str(song.title) + "_art.jpg")
                 song.album_art = '\media\\' + "artist_art\\" + str(song.title) + "_art.jpg"
                 context_dict['album_art'] = song.album_art
 
         context_dict['artist_art'] = song.artist_art
-=======
-                    album_checksum=song.album_art
-                if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):
-                    testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
-                song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
-                context_dict['album_art']=song.album_art
-                
-        context_dict['artist_art']=song.artist_art
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
-    except Playlist.DoesNotExist:
-        # Template will display "no playlist" message for us
-        context_dict['playlist'] = None
-        context_dict['songs'] = None
+        album_checksum = song.album_art
+    if not os.path.exists(BASE_DIR + '\media\\' + "artist_art\\" + str(song.title) + "_art.jpg"):
+        testfile.retrieve(song.album_art, BASE_DIR + '\media\\' + "artist_art\\" + str(song.title) + "_art.jpg")
+    song.album_art = '\media\\' + "artist_art\\" + str(song.title) + "_art.jpg"
+    context_dict['album_art'] = song.album_art
 
-    visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
 
-    response = render(request, 'ToP/playlist.html', context=context_dict)
-    views = forms.IntegerField(context_dict['visits'], initial=0)
+context_dict['artist_art'] = song.artist_art
+except Playlist.DoesNotExist:  # Template will display "no playlist" message for us
+context_dict['playlist'] = None
+context_dict['songs'] = None
 
-    return render(request, 'ToP/playlist.html', context_dict)
+visitor_cookie_handler(request)
+context_dict['visits'] = request.session['visits']
+
+response = render(request, 'ToP/playlist.html', context=context_dict)
+views = forms.IntegerField(context_dict['visits'], initial=0)
+
+return render(request, 'ToP/playlist.html', context_dict)
+
 
 @login_required
 def add_comment_to_playlist(request, playlist_name_slug):
-    playlist  = Playlist.objects.get(slug=playlist_name_slug)
+    playlist = Playlist.objects.get(slug=playlist_name_slug)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -215,14 +187,8 @@ def view_all_playlists(request):
     return render(request, 'ToP/view_all_playlists.html', context_dict)
 
 
-<<<<<<< HEAD
-"""@login_required"""
-
-
-=======
 # This view is basically like viewing the current user's profile
 @login_required
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 def my_playlists(request):
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
@@ -231,18 +197,12 @@ def my_playlists(request):
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 
-<<<<<<< HEAD
-"""@login_required"""
-
-
-=======
 @login_required
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 def create_playlist(request):
     form = PlaylistForm()
-    
+
     if request.method == 'POST':
-        form = PlaylistForm(request.POST,request.FILES)
+        form = PlaylistForm(request.POST, request.FILES)
 
         # Valid form?
         if form.is_valid():
@@ -255,13 +215,7 @@ def create_playlist(request):
     return render(request, 'ToP/create_playlist.html', {'form': form})
 
 
-<<<<<<< HEAD
-"""@login_required"""
-
-
-=======
 @login_required
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
 def add_song(request, playlist_name_slug):
     try:
         playlist = Playlist.objects.get(slug=playlist_name_slug)
@@ -529,7 +483,6 @@ def password_reset_complete(request,
     if extra_context is not None:
         context.update(extra_context)
     return TemplateResponse(request, template_name, context, current_app=current_app)
-<<<<<<< HEAD
 
 
 def ResetPasswordRequest(FormView):
@@ -581,7 +534,10 @@ def password_change(request,
                     template_name='registration/password_change_form.html',
                     post_change_redirect=None,
                     password_change_form=PasswordChangeForm,
-                    current_app=None, extra_context=None):
+                    extra_context=None):
+    warnings.warn("The password_change() view is superseded by the "
+                  "class-based PasswordChangeView().",
+                  RemovedInDjango21Warning, stacklevel=2)
     if post_change_redirect is None:
         post_change_redirect = reverse('password_change_done')
     else:
@@ -591,9 +547,7 @@ def password_change(request,
         if form.is_valid():
             form.save()
             # Updating the password logs out all other sessions for the user
-            # except the current one if
-            # django.contrib.auth.middleware.SessionAuthenticationMiddleware
-            # is enabled.
+            # except the current one.
             update_session_auth_hash(request, form.user)
             return HttpResponseRedirect(post_change_redirect)
     else:
@@ -604,20 +558,55 @@ def password_change(request,
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+
+    return TemplateResponse(request, template_name, context)
 
 
 @login_required
 def password_change_done(request,
                          template_name='registration/password_change_done.html',
-                         current_app=None, extra_context=None):
+                         extra_context=None):
+    warnings.warn("The password_change_done() view is superseded by the "
+                  "class-based PasswordChangeDoneView().",
+                  RemovedInDjango21Warning, stacklevel=2)
     context = {
         'title': _('Password change successful'),
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
-=======
->>>>>>> 2ec865ad1af86ce1b80aebdb04055c7468397014
+
+    return TemplateResponse(request, template_name, context)
+
+
+class PasswordChangeView(PasswordContextMixin, FormView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('password_change_done')
+    template_name = 'registration/password_change_form.html'
+    title = _('Password change')
+
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
+        return super().form_valid(form)
+
+
+class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
+    template_name = 'registration/password_change_done.html'
+    title = _('Password change successful')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
