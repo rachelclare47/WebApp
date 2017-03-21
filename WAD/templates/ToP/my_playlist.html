@@ -6,11 +6,6 @@
 {% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
-<p class="lead">
-	<strong>My Playlists is functional</strong>
-</p>
-<a href="{url 'password_change/'}" class="nav-link">Change Password</a>
 <!-- <div class="col-lg-6">
     {% if user.is_authenticated %}
         <h1>{{ user.username }}, welcome to your playlists</h1>
@@ -37,13 +32,12 @@
 	{% endif %}
 </p>
 </div>-->
-=======
 <div class="col-lg-12">
     <h1>My Playlists</h1>
 
 	{% if user.is_authenticated %}
 	<h4>{{ user.username }}, welcome to your playlists</h4>
-	<a href="{url 'auth_password_change'}" class="nav-link">Change Password</a>
+	<a href="accounts/password_change/" class="nav-link">Change Password</a>
 	    {% if playlists %}
 		    <ul class="list-group">
 			    {% for playlist in playlists %}
@@ -66,5 +60,4 @@
         <strong>You are not logged in. Please go to the home page and log in first.</strong>
     {% endif %}
 </div>
->>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 {% endblock %}
