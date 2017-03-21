@@ -7,6 +7,11 @@
 
 {% block body %}
     {% if playlist %}
+		{% if playlist.picture %}
+			<img src="{{ playlist.picture.url }} "height='135' width='auto'></br>
+		{% else %}
+			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='135' width='auto'></br>
+		{% endif %}
 		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>
 
@@ -24,14 +29,12 @@
 			</ul>
 			<hr>
 			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
-			{% for comment in Comment %}
-				{% if playlist.comment={{ playlist.slug }} }
-					<div class="comment">
-						<div class="date">{{ comment.created_date }}</div>
-						<strong>{{ comment.author }}</strong>
-						<p>{{ comment.text|linebreaks }}</p>
-					
-					</div>
+			{% for comment in playlist.comments.all %}
+				<div class="comment">
+					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}</br>
+					{{ comment.created_date }}
+					</p>
+				</div>
 			{% empty %}
 				<p>No comments </p>
 			{% endfor %}

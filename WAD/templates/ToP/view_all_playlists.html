@@ -7,15 +7,22 @@
 
 {% block body %}
 
-<h4>All Playlists</h4>
+<h1>All Playlists</h1>
 
 <div class="col-lg-12">
 	{% if playlists %}
 	<ul class="list-group">
 		{% for playlist in playlists %}
-		<li class="list-group-item list-group-item-warning">
+			<li class="list-group-item list-group-item-warning">
+			
+			{% if playlist.picture %}
+				<img src="{{ playlist.picture.url }} "height='75' width='auto'>
+			{% else %}
+				<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
+			{% endif %}	
+			
 			<a href="/ToP/playlist/{{ playlist.slug }}">{{ playlist.name }}</a>
-		</li>
+			</li>
 		{% endfor %}
 	</ul>
 	{% else %}

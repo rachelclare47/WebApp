@@ -11,6 +11,10 @@ from django.shortcuts import resolve_url, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
                                  logout as auth_logout, get_user_model, update_session_auth_hash)
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm, PasswordChangeForm
@@ -20,7 +24,10 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
 from django import forms
 from django.core.mail import send_mail
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 import spotipy
 import sys
 import urllib
@@ -40,7 +47,10 @@ def top_rated(request):
     response = render(request, 'ToP/top_rated.html', context=context_dict)
     return response
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 def most_viewed(request):
     playlist_list = Playlist.objects.order_by("views")[:40]
     context_dict = {'playlists': playlist_list}
@@ -62,6 +72,7 @@ def show_playlist(request, playlist_name_slug):
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
 
+<<<<<<< HEAD
         # Flushes the artist art folder to prevent build up of unecessary art
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         if os.path.exists(BASE_DIR + '\media\\' + "artist_art\\"):
@@ -79,6 +90,9 @@ def show_playlist(request, playlist_name_slug):
         check_artist = songs[0].artist
 
         # Flushes the artist art folder to prevent build up of unecessary art
+=======
+        #Flushes the artist art folder to prevent build up of unecessary art
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         """if os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             shutil.rmtree(BASE_DIR+'\media\\'+"artist_art\\")
@@ -86,19 +100,32 @@ def show_playlist(request, playlist_name_slug):
         elif not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"):
             os.makedirs(BASE_DIR+'\media\\'+"artist_art\\")
         """
+<<<<<<< HEAD
         # Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
         # each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
+=======
+        
+        #Queries the spotify song database and pulls the artist image url from it based on the artist title entered on
+        #each song. This is called song.artist_art. If the song art isnt found(this causes the program to pick
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
         # the last chosen album art) the program checks with the checksum(the url of the previously used album art)
         # and if this is the same as the new url, a default image is used
         checksum = ""
         album_checksum = ""
         for song in songs:
+<<<<<<< HEAD
             if song == None:
                 check_artist = songs[0].artist
+=======
+              if song!=None:
+                    check_artist=songs[0].artist
+                    break
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
         testfile = urllib.URLopener()
 
-        # Artist Art
+        #Artist Art
         for song in songs:
+<<<<<<< HEAD
             results = spotify.search(q='artist:' + song.artist, type='artist')
             items = results['artists']['items']
             if len(items) > 0:
@@ -161,6 +188,57 @@ views = forms.IntegerField(context_dict['visits'], initial=0)
 
 return render(request, 'ToP/playlist.html', context_dict)
 
+=======
+              if song!=None:
+                  results = spotify.search(q='artist:' + song.artist, type='artist')
+                  items = results['artists']['items']
+                  if len(items) > 0:
+                      artist = items[0]
+                  song.artist_art =artist['images'][0]['url']
+                  if song.artist_art == checksum and song.artist!=check_artist:
+                      song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
+                      checksum=song.artist_art
+                  else:
+                      checksum=song.artist_art
+
+                  if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
+                        testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
+                  song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+
+                  #Album Art
+                  results = spotify.search(q='album:' + song.title, type='album')
+                  items = results['albums']['items']
+                  for item in items:
+                      if item.get(song.artist)==song.artist:
+                          album = item
+                      else:
+                          album = items[0]
+                      song.album_art =album['images'][0]['url']
+                      if song.album_art == checksum and song.artist!=check_artist:
+                          song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
+                          album_checksum=song.album_art
+                      else:
+                          album_checksum=song.album_art
+
+                      if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):        
+                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
+                      song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
+                      context_dict['album_art']=song.album_art
+                      
+              context_dict['artist_art']=song.artist_art
+    except Playlist.DoesNotExist:
+        # Template will display "no playlist" message for us
+        context_dict['playlist'] = None
+        context_dict['songs'] = None
+
+
+    visitor_cookie_handler(request)
+    context_dict['visits']=request.session['visits']
+    
+    response = render(request, 'ToP/playlist.html',context=context_dict)
+    views = forms.IntegerField(context_dict['visits'], initial=0)
+    return render(request, 'ToP/playlist.html', context_dict)
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 
 @login_required
 def add_comment_to_playlist(request, playlist_name_slug):
@@ -176,6 +254,21 @@ def add_comment_to_playlist(request, playlist_name_slug):
     else:
         form = CommentForm()
     return render(request, 'ToP/add_comment_to_playlist.html', {'form': form})
+
+@login_required
+def add_rating(request, playlist_name_slug):
+	playlist = Playlist.objects.get(slug=playlist_name_slug)
+	if request.method == "POST":
+		form = RatingForm(request.POST)
+		if form.is_valid():
+			rating = form.save(commit=False)
+			rating.playlist = playlist
+			print playlist
+			rating.save()
+			return show_playlist(request, playlist_name_slug)
+	else:
+		form = RatingForm()
+	return render(request, 'ToP/add_rating.html', {'form' : form})
 
 
 def view_all_playlists(request):
@@ -196,7 +289,10 @@ def my_playlists(request):
     context_dict = {'playlists': playlist_list}
     return render(request, 'ToP/my_playlist.html', context_dict)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 @login_required
 def create_playlist(request):
     form = PlaylistForm()
@@ -214,7 +310,10 @@ def create_playlist(request):
     # Render form with error messages, if any
     return render(request, 'ToP/create_playlist.html', {'form': form})
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
 @login_required
 def add_song(request, playlist_name_slug):
     try:
@@ -574,6 +673,7 @@ def password_change_done(request,
     }
     if extra_context is not None:
         context.update(extra_context)
+<<<<<<< HEAD
 
     return TemplateResponse(request, template_name, context)
 
@@ -610,3 +710,7 @@ class PasswordChangeDoneView(PasswordContextMixin, TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
+=======
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
+>>>>>>> 8301bd0f41936a6dce718810b192c3fd93d7bbfa
