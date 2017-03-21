@@ -100,23 +100,23 @@ def show_playlist(request, playlist_name_slug):
                   song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
 
                   #Album Art
-                  results = spotify.search(q='album:' + song.title, type='album')
+                  results = spotify.search(q='album:' + song.album, type='album')
                   items = results['albums']['items']
                   for item in items:
-                      if item.get(song.artist)==song.artist:
+                      if item.get(song.album)==song.album:
                           album = item
                       else:
                           album = items[0]
                       song.album_art =album['images'][0]['url']
-                      if song.album_art == checksum and song.artist!=check_artist:
+                      if song.album_art == checksum and song.album!=check_artist:
                           song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                           album_checksum=song.album_art
                       else:
                           album_checksum=song.album_art
 
-                      if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"):        
-                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.title)+"_art.jpg")
-                      song.album_art='\media\\'+"artist_art\\"+str(song.title)+"_art.jpg"
+                      if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.album)+"_art.jpg"):        
+                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.album)+"_art.jpg")
+                      song.album_art='\media\\'+"artist_art\\"+str(song.album)+"_art.jpg"
                       context_dict['album_art']=song.album_art
                       
               context_dict['artist_art']=song.artist_art

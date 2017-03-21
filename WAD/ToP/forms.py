@@ -42,6 +42,7 @@ class RatingForm(forms.ModelForm)
 
 class SongForm(forms.ModelForm):
     title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
+    album = forms.CharField(max_length=128, help_text="Please enter the title of the album the song is in.")
     artist = forms.CharField(max_length=128, help_text="Please enter the artist of the song.")
     genre = forms.CharField(max_length=128, help_text="Please enter the genre of music.")
     
@@ -50,7 +51,7 @@ class SongForm(forms.ModelForm):
         # Hiding the foreign key
         # Can either exclude the playlist field from the form or specify fields to include
         exclude = ('playlists',)
-        
+        fields = ('title', 'album', 'artist','genre')
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

@@ -37,6 +37,7 @@ class Playlist(models.Model):
 class Song(models.Model):
     playlists = models.ForeignKey(Playlist)
     title = models.CharField(max_length=128, unique=False)
+    album = models.CharField(max_length=128, unique=False)
     artist = models.CharField(max_length=128, unique=False)
     genre = models.CharField(max_length=128, unique=False)
     

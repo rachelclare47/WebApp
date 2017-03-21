@@ -9,30 +9,34 @@ def populate():
 	# into each playlist.
 	# Then create a dictionary of dictionaries for the playlists.
 	# This allows us to iterate through each data structure and add data
-	
-	chill_songs = [
-		{"title": "Little Talks",
-		 "artist": "Of Monsters and Men",
-		 "genre": "Indie",},
-		{"title": "Tru",
-		 "artist": "Lloyd",
-		 "genre": "R&B/Soul",} ]
-	
+        chill_songs = [
+            {"title": "Little Talks",
+             "artist": "Of Monsters and Men",
+             'album': "My Head is an Animal",
+             "genre": "Indie",},
+            {"title": "Tru",
+             "artist": "Lloyd",
+             'album': "Tru",
+             "genre": "R&B/Soul",} ]
+            
 	hiphop_songs = [
 		{"title": "Rap God",
 		 "artist": "Eminem",
+                 'album': "The Marshall Mathers LP 2",
 		 "genre": "Hip Hop",},
 		{"title": "Still D.R.E",
 		 "artist": "Dr Dre",
+                 'album': "2001",
 		 "genre": "Hip Hop",} ]
 	
 	kpop_songs = [
 		{"title": "Spy",
 		 "artist": "Super Junior",
-		 "genre": "K-Pop",
-                 "artist_image":""},
+                 'album': "Sexy, Free & Single",
+		 "genre": "K-Pop",},
 		{"title": "I NEED U",
 		 "artist": "BTS",
+                 'album': "The Most Beautiful Moment in Life, Part 1",
 		 "genre": "K-Pop",} ]
 	
 	playlists = {   "Chill": {"songs": chill_songs},
