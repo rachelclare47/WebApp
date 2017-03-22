@@ -31,7 +31,10 @@ spotify = spotipy.Spotify()
 
 
 def home(request):
-    return render(request, 'ToP/home.html')
+	playlist_list = Playlist.objects.order_by("views")[:1]
+	context_dict = {'playlists': playlist_list}
+	response = render(request, 'ToP/home.html', context = context_dict)
+	return response
 
 
 def top_rated(request):

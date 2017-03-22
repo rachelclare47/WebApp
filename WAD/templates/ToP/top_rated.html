@@ -6,14 +6,14 @@
 {% endblock %}
 
 {% block body %}
-<div class="inner center">
+<div class="inner cover">
 	<p class="lead">
 		<h1>The Top 40</h1>
 	</p>
+	<h5>This is where all the best playists on the site come together to battle it out for a place in the Top 40 Rankings!</h5>
 </div>
+
 <div class="col-lg-12">
-	<h4>This is where all the best playists on the site come together to battle it out for a place in the Top 40 Rankings!
-	Check back every day to see what new music playlists are that day!</h4>
 	{% if playlists %}
 	<ul class="list-group">
 		{% for playlist in playlists %}
@@ -25,7 +25,14 @@
 				<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 			{% endif %}	
 			
-			<a href="/ToP/playlist/{{ playlist.slug }}">{{ playlist.name }}</a>
+			<a href="/ToP/playlist/{{ playlist.slug }}" class="trigger">{{ playlist.name }}</a>
+				<div class="pop-up" style="display: none">
+					{% if playlist.author %}
+						<p>Author: {{ playlist.author }}</p>
+					{% else %}
+						<p>Author: N/A</p>
+					{% endif %}
+				</div>
 		</li>
 		{% endfor %}
 	</ul>
