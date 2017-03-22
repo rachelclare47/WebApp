@@ -6,8 +6,12 @@
 {% endblock %}
 
 {% block body %}
-
-<h1>All Playlists</h1>
+<div class="inner cover">
+	<p class="lead">
+		<h1>All Playlists</h1>
+	</p>
+	<h5>View all the playlists ever created by our awesome users!</h5>
+</div>
 
 <div class="col-lg-12">
 	{% if playlists %}
@@ -21,7 +25,14 @@
 				<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 			{% endif %}	
 			
-			<a href="/ToP/playlist/{{ playlist.slug }}">{{ playlist.name }}</a>
+			<a href="/ToP/playlist/{{ playlist.slug }}" class="trigger">{{ playlist.name }}</a>
+				<div class="pop-up" style="display: none">
+					{% if playlist.author %}
+						<p>Author: {{ playlist.author }}</p>
+					{% else %}
+						<p>Author: N/A</p>
+					{% endif %}
+				</div>
 			</li>
 		{% endfor %}
 	</ul>
