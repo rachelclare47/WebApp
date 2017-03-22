@@ -35,7 +35,7 @@ class RatingForm(forms.ModelForm):
 	rating = forms.ChoiceField(choices = RATING_CHOICES, label = "", initial = "", widget=forms.Select(), required=True)
 	class Meta:
 		model = Rating
-		fields = ('author',)
+		fields = ('author','rating')
 
 class SongForm(forms.ModelForm):
 	title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")

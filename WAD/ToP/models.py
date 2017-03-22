@@ -69,7 +69,7 @@ class Rating(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	approved_rating = models.BooleanField(default=False)
 	def approve(self):
-		self.approved_rating = True	
-		self.save()
+	    self.approved_rating = True	
+	    self.save()
 	def __str__(self):
-		return self.text
+	    return self.text
