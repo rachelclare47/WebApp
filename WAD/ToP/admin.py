@@ -1,6 +1,6 @@
 from django.contrib import admin
 from ToP.models import Playlist, Song, UserProfile
-from ToP.models import UserProfile,Comment
+from ToP.models import UserProfile,Comment, Rating
 
 
 class PlaylistAdmin(admin.ModelAdmin):
@@ -13,4 +13,5 @@ admin.site.register(Playlist, PlaylistAdmin)
 admin.site.register(Song, SongAdmin)
 admin.site.register(UserProfile)
 admin.site.register(Comment)
+admin.site.register(Rating)
 """admin.site.register(Rating)"""
