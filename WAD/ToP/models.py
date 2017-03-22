@@ -64,7 +64,6 @@ class Comment(models.Model):
 class Rating(models.Model):
 	playlist = models.ForeignKey('ToP.Playlist', related_name='ratings',null=True)
 	author = models.CharField(max_length=128, unique=False)
-	CHOICES = (('1'),('2'),('3'),('4'),('5'))
 	rating = models.IntegerField(choices=RATING_CHOICES, default=1)
 	created_date = models.DateTimeField(default=timezone.now)
 	approved_rating = models.BooleanField(default=False)
@@ -72,4 +71,4 @@ class Rating(models.Model):
 	    self.approved_rating = True	
 	    self.save()
 	def __str__(self):
-	    return self.text
+	    return self.rating
