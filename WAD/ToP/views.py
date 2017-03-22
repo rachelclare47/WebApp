@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm
+from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm, RatingForm
 from ToP.models import Playlist, Song, UserProfile
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse

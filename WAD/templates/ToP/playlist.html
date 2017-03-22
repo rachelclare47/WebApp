@@ -39,6 +39,16 @@
 			{% empty %}
 				<p>No comments </p>
 			{% endfor %}
+			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/rating/">Add rating</a>
+			{% for rating in playlist.ratings.all %}
+				<div class="rating">
+					<p><strong>{{ rating.author }}: </strong>{{ rating.text }}</br>
+					{{ rating.created_date }}
+					</p>
+				</div>
+			{% empty %}
+				<p>No ratings </p>
+			{% endfor %}
 		{% else %}
 			<strong>No songs currently in playlist.</strong>
 		{% endif %}

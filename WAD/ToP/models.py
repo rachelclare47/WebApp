@@ -59,3 +59,15 @@ class Comment(models.Model):
         self.save()
     def __str__(self):
         return self.text
+
+class Rating(models.Model):
+    playlist = models.ForeignKey('ToP.Playlist', related_name='ratings',null=True)
+    author = models.CharField(max_length=128, unique=False)
+    rating = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_rating = models.BooleanField(default=False)
+    def approve(self):
+        self.approved_rating = True	
+        self.save()
+    def __str__(self):
+        return self.text

@@ -2,11 +2,15 @@
 
 {% block body %}
     <h1>New rating </h1>
-	<form>
+    <form method="POST" class="post-form">{% csrf_token %}
+	        {{ form.as_p }}
 		<input type="radio" name="rating" value="1"> 1<br>
 		<input type="radio" name="rating" value="2"> 2<br>
 		<input type="radio" name="rating" value="3"> 3<br>
 		<input type="radio" name="rating" value="4"> 4<br>
 		<input type="radio" name="rating" value="5"> 5<br>
+		<button type="submit" class="save btn btn-default">Send</button>
+		</form>
+
 
 {% endblock %}

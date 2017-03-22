@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django import forms
 from django.contrib.auth.models import User
-from ToP.models import Playlist, Song, UserProfile,Comment
+from ToP.models import Playlist, Song, UserProfile,Comment, Rating
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -29,13 +29,13 @@ class CommentForm(forms.ModelForm):
 		model = Comment
 		fields = ('author','text',)
 
-"""		
-class RatingForm(forms.ModelForm)
+	
+class RatingForm(forms.ModelForm):
 	
 	class Meta:
-	model = Rating
-	fields = ('author')
-"""
+		model = Rating
+		fields = ('author', 'rating') 
+
 
 class SongForm(forms.ModelForm):
 	title = forms.CharField(max_length=128, help_text="Please enter the title of the song.")
