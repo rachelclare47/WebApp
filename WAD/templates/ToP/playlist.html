@@ -8,13 +8,14 @@
 {% block body %}
     {% if playlist %}
 		{% if playlist.picture %}
-			<img src="{{ playlist.picture.url }} "height='135' width='auto'></br>
+			<img src="{{ playlist.picture.url }} "height='135' width='auto'><br/>
 		{% else %}
-			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='135' width='auto'></br>
+			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='135' width='auto'><br/>
 		{% endif %}
+		<br/>
 		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>
-		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/>
+		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/> <br/>
 
 		{% if songs %}
 			<ul>
@@ -26,6 +27,7 @@
 					by {{ song.artist }}<br/>
 					Album: {{song.album}}<br/>
 					Genre: {{ song.genre}}<br/>
+					<br/>
 					</li>
 				{% endfor %}
 			</ul>
@@ -33,7 +35,7 @@
 			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
 			{% for comment in playlist.comments.all %}
 				<div class="comment">
-					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}</br>
+					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}<br/>
 					{{ comment.created_date }}
 					</p>
 				</div>
@@ -45,7 +47,9 @@
 			
 		{% else %}
 			<strong>No songs currently in playlist.</strong>
+			<hr>
 		{% endif %}
+
     {% else %}
 		The specified playlist does not exist!
 	{% endif %}

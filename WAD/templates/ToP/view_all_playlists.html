@@ -7,9 +7,7 @@
 
 {% block body %}
 <div class="inner cover">
-	<p class="lead">
-		<h1>All Playlists</h1>
-	</p>
+	<h1>All Playlists</h1>
 	<h5>View all the playlists ever created by our awesome users!</h5>
 </div>
 
@@ -18,7 +16,7 @@
 	<ul class="list-group">
 		{% for playlist in playlists %}
 			<li class="list-group-item list-group-item-warning">
-			
+				
 			{% if playlist.picture %}
 				<img src="{{ playlist.picture.url }} "height='75' width='auto'>
 			{% else %}
