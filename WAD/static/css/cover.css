@@ -6,7 +6,7 @@
 a,
 a:focus,
 a:hover {
-  color: #fff;
+  font-weight: bold;
 }
 
 /* Custom default button */
@@ -167,4 +167,18 @@ img {
   object-fit: cover;
   width:100px;
   height:100px;
+}
+
+.trigger {
+	padding-left: 20px;
+	font-size: 20px;
+	color: #5e1415;
+	text-shadow: none;
+}
+
+.pop-up {
+	padding-left: 15px;
+	padding-top: 15px;
+	color: #ff9966;
+	text-shadow: none;
 }
