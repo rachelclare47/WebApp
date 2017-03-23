@@ -38,7 +38,7 @@ def home(request):
 
 
 def top_rated(request):
-    playlist_list = Playlist.objects.order_by("rating")[:40]
+    playlist_list = Playlist.objects.order_by("-rating")[:40]
     context_dict = {'playlists': playlist_list}
     response = render(request, 'ToP/top_rated.html', context=context_dict)
     return response
@@ -109,16 +109,20 @@ def show_playlist(request, playlist_name_slug):
                             context_dict['artist_art']=song.artist_art
 
                         if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):
-                                  #Album Art
+                                  #Album Art 
                                   results = spotify.search(q='album:' + song.album, type='album')
                                   items = results['albums']['items']
                                   for item in items:
                                       if item.get(song.album)==song.album:
-                                          album = item
+                                              print 
+                                              if item.get(song.artist)==song.artist:
+                                                        album = item
                                       else:
                                           album = items[0]
+                                          flag = 1
                                       song.album_art =album['images'][0]['url']
-                                      if song.album_art == checksum and song.album!=check_artist:
+                                      
+                                      if song.album_art == checksum and song.album!=check_artist and flag==1:
                                           song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                                           album_checksum=song.album_art
                                       else:
