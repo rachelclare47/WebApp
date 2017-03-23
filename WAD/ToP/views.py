@@ -163,7 +163,7 @@ def show_playlist(request, playlist_name_slug):
 
     response = render(request, 'ToP/playlist.html', context=context_dict)
     views = forms.IntegerField(context_dict['visits'], initial=0)
-    return render(request, 'ToP/playlist.html', context_dict)
+    return render(request, 'ToP/playlist.html', context=context_dict)
 
 
 @login_required
