@@ -5,6 +5,8 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.utils import timezone
 from ToP.choices import *
+
+
 class UserProfile(models.Model):
     # Links UserProfile to a User model instance
     user = models.OneToOneField(User)

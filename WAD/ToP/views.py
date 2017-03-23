@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm, RatingForm
-from ToP.models import Playlist, Song, UserProfile , Rating
+from ToP.models import Playlist, Song, UserProfile, Rating
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
@@ -210,10 +210,15 @@ def view_all_playlists(request):
 # This view is basically like viewing the current user's profile
 @login_required
 def my_playlists(request):
+    username = User.objects.get(username=request.user)
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
+    try:
+        up = UserProfile.objects.get(user=username)
+    except:
+        up = None
     # List placed into context dictionary that is passed into template engine
-    context_dict = {'playlists': playlist_list}
+    context_dict = {'playlists': playlist_list, 'userprofile': up, 'username': username}
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 

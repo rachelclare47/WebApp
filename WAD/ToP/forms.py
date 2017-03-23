@@ -60,6 +60,7 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+	forms.ImageField(help_text="Select a profile picture to upload.", required=False)
 	class Meta:
 		model = UserProfile
 		fields = ('picture',)
@@ -176,3 +177,10 @@ class PasswordChangeForm(SetPasswordForm):
                 code='password_incorrect',
             )
         return old_password
+
+class UserProfileForm(forms.ModelForm):
+	picture = forms.ImageField(help_text="Select a profile image to upload")
+
+	class Meta:
+		model = UserProfile
+		fields = ('picture', )
