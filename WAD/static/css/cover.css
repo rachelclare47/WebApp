@@ -6,7 +6,8 @@
 a,
 a:focus,
 a:hover {
-  font-weight: bold;
+	font-weight: bold;
+	color: #fff;
 }
 
 /* Custom default button */
@@ -169,7 +170,15 @@ img {
   height:100px;
 }
 
+/* Hovering over a playlist name */
 .trigger {
+	padding-left: 20px;
+	font-size: 20px;
+	color: #5e1415;
+	text-shadow: none;
+}
+
+.my_playlists {
 	padding-left: 20px;
 	font-size: 20px;
 	color: #5e1415;
