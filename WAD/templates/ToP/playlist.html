@@ -32,7 +32,10 @@
 				{% endfor %}
 			</ul>
 			<hr>
-			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
+		
+			{% if user.is_authenticated %}
+				<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
+			{% endif %}
 			{% for comment in playlist.comments.all %}
 				<div class="comment">
 					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}<br/>
@@ -40,10 +43,13 @@
 					</p>
 				</div>
 			{% empty %}
-				<p>No comments </p>
+				<p>No comments </p><br/>
 			{% endfor %}
-			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/rating/">Add rating</a>
-			<hr>
+
+			{% if user.is_authenticated %}
+				<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/rating/">Add rating</a>
+				<hr>
+			{% endif %}
 			
 		{% else %}
 			<strong>No songs currently in playlist.</strong>
@@ -53,7 +59,10 @@
     {% else %}
 		The specified playlist does not exist!
 	{% endif %}
-	{% if playlist.author == user.username %}
-    	<a href="/ToP/playlist/{{ playlist.slug }}/add_song/">Add a Song</a> <br/>
+
+	{% if user.is_authenticated %}
+		{% if playlist.author == user.username %}
+    		<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/add_song/">Add a Song</a> <br/>
+		{% endif %}
 	{% endif %}
 {% endblock %}

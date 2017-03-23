@@ -70,10 +70,12 @@ body {
 
 .masthead {
   margin-bottom: 2rem;
+  position: absolute;
 }
 
 .masthead-brand {
   margin-bottom: 0;
+  
 }
 
 .nav-masthead .nav-link {
@@ -96,6 +98,10 @@ body {
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+h1 {
+	margin-top: 7rem;
 }
 
 @media (min-width: 48em) {
@@ -139,6 +145,7 @@ body {
   .masthead {
     position: fixed;
     top: 0;
+	
   }
   .mastfoot {
     position: fixed;
@@ -153,6 +160,8 @@ body {
   .mastfoot,
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
+	position: absolute
+	overflow: hidden
   }
 }
 
