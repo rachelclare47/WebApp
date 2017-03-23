@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from ToP.forms import PlaylistForm, SongForm, UserForm, UserProfileForm, CommentForm, RatingForm
-from ToP.models import Playlist, Song, UserProfile
+from ToP.models import Playlist, Song, UserProfile , Rating
 from django.contrib.auth import logout, authenticate
 from django.core.urlresolvers import reverse
 from datetime import datetime
@@ -61,6 +61,7 @@ def show_playlist(request, playlist_name_slug):
         # Retrieve all associated songs
         # filter() returns a list of song objects or an empty list
         songs = Song.objects.filter(playlists=playlist)
+        ratings = Rating.objects.filter(playlist=playlist)
         # Add filtered list to dict
         context_dict['songs'] = songs
         context_dict['playlist'] = playlist
@@ -89,48 +90,70 @@ def show_playlist(request, playlist_name_slug):
         # Artist Art
         for song in songs:
               if song!=None:
-                  results = spotify.search(q='artist:' + song.artist, type='artist')
-                  items = results['artists']['items']
-                  if len(items) > 0:
-                      artist = items[0]
-                  song.artist_art =artist['images'][0]['url']
-                  if song.artist_art == checksum and song.artist!=check_artist:
-                      song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
-                      checksum=song.artist_art
-                  else:
-                      checksum=song.artist_art
+                        if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
+                            results = spotify.search(q='artist:' + song.artist, type='artist')
+                            items = results['artists']['items']
+                            if len(items) > 0:
+                                artist = items[0]
+                            song.artist_art =artist['images'][0]['url']
 
-                  if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
-                        testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
-                  song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+                            if song.artist_art == checksum and song.artist!=check_artist:
+                                song.artist_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
+                                checksum=song.artist_art
+                            else:
+                                checksum=song.artist_art
+                                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")  
+                                song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
+                        else:
+                            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"                
+                            context_dict['artist_art']=song.artist_art
 
-                  #Album Art
-                  results = spotify.search(q='album:' + song.album, type='album')
-                  items = results['albums']['items']
-                  for item in items:
-                      if item.get(song.album)==song.album:
-                          album = item
-                      else:
-                          album = items[0]
-                      song.album_art =album['images'][0]['url']
-                      if song.album_art == checksum and song.album!=check_artist:
-                          song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
-                          album_checksum=song.album_art
-                      else:
-                          album_checksum=song.album_art
+                        if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):
+                                  #Album Art
+                                  results = spotify.search(q='album:' + song.album, type='album')
+                                  items = results['albums']['items']
+                                  for item in items:
+                                      if item.get(song.album)==song.album:
+                                          album = item
+                                      else:
+                                          album = items[0]
+                                      song.album_art =album['images'][0]['url']
+                                      if song.album_art == checksum and song.album!=check_artist:
+                                          song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
+                                          album_checksum=song.album_art
+                                      else:
+                                          album_checksum=song.album_art
 
-                      if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):        
-                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg")
-                      song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
-                      context_dict['album_art']=song.album_art
-                      
-              context_dict['artist_art']=song.artist_art
+                                      if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):        
+                                            testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg")
+                                            song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
+                        else:
+                                song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
+                                context_dict['album_art']=song.album_art
+                                
+        #Gets the average rating
+        context_dict['rating'] = ratings
+        total_rating=0
+        average_rating=0
+        if ratings!=None:
+            for rating in ratings:
+                    total_rating=total_rating+int(str(rating))
+                    average_rating=float(total_rating/len(ratings))
+            playlist.rating=average_rating
+            playlist.save()
+            print playlist.rating
+        else:
+            average_rating=0
+            playlist.rating=average_rating
+            playlist.save()
+        context_dict['total_rating'] = average_rating
 
     except Playlist.DoesNotExist:
         # Template will display "no playlist" message for us
         context_dict['playlist'] = None
         context_dict['songs'] = None
 
+    
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
 
@@ -162,8 +185,8 @@ def add_rating(request, playlist_name_slug):
         form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
+            rating.author=request.user.username
             rating.playlist = playlist
-            print playlist
             rating.save()
             return show_playlist(request, playlist_name_slug)
     else:

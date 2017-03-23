@@ -71,4 +71,4 @@ class Rating(models.Model):
 	    self.approved_rating = True	
 	    self.save()
 	def __str__(self):
-	    return self.rating
+	    return str(self.rating)

@@ -14,6 +14,7 @@
 		{% endif %}
 		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>
+		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/>
 
 		{% if songs %}
 			<ul>
@@ -40,15 +41,7 @@
 				<p>No comments </p>
 			{% endfor %}
 			<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/rating/">Add rating</a>
-			{% for rating in playlist.ratings.all %}
-				<div class="rating">
-					<p><strong>{{ rating.author }}: </strong>{{ rating.rating }}</br>
-					{{ rating.created_date }} 
-					</p>
-				</div>
-			{% empty %}
-				<p>No ratings </p>
-			{% endfor %}
+			
 		{% else %}
 			<strong>No songs currently in playlist.</strong>
 		{% endif %}

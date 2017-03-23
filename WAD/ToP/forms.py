@@ -32,6 +32,7 @@ class CommentForm(forms.ModelForm):
 
 	
 class RatingForm(forms.ModelForm):
+        author = forms.CharField(max_length=128, required=False, widget=forms.HiddenInput())
 	rating = forms.ChoiceField(choices = RATING_CHOICES, label = "", initial = "", widget=forms.Select(), required=True)
 	class Meta:
 		model = Rating
