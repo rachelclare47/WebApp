@@ -21,6 +21,11 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
 class Playlist(models.Model):
     
     name = models.CharField(max_length=128, unique=True)

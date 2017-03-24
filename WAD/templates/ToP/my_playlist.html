@@ -6,21 +6,9 @@
 {% endblock %}
 
 {% block body %}
-<div class="inner cover">
-	<h1>My Playlists</h1>
-</div>
-
-	{% if user.is_authenticated %}
-	<center>
-		<div class="box">
-		<div class="power">☮</div>
-		<div class="userbox">
-		<div class="pic">{{ userprofile.picture }}</div>
-		</div>
-    <p><span class="user">{{ username }}</span></p>
-	{{ userprofile }}
-  </div>
-  
+<center>
+<div style="postions:relative; height:60px;">
+	<p><span class="user" style="postion:absolute; top:-10px; left:-30px;">{{ username }}</span></p>
 </center>
 	<a href="accounts/password_change/" class="nav-link">Change Password</a>
 	<div class="col-lg-12">
@@ -45,7 +33,4 @@
 			<p class="lead">There are no playlists present.</p>
 	    {% endif %}
 	</div>
-    {% else %}
-        <p class="lead">You are not logged in. Please go to the home page and log in first.</p>
-    {% endif %}
 {% endblock %}

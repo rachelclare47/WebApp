@@ -33,7 +33,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'testsite_app'
 EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
