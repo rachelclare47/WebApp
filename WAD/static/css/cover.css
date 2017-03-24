@@ -146,7 +146,7 @@ p {
 @media (min-width: 40em) {
   /* Pull out the header and footer */
   .masthead {
-    position: fixed;
+    position: absolute;
     top: 0;
 	
   }
@@ -204,3 +204,5 @@ img {
 	color: #ff9966;
 	text-shadow: none;
 }
+
+/* Override the header */
