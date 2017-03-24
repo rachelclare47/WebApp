@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'playlist/(?P<playlist_name_slug>[\w\-]+)/add_song/$', views.add_song, name='add_song'),
     url(r'^create_playlist/$', views.create_playlist, name='create_playlist'),
     url(r'^my_playlists/$', views.my_playlists, name='my_playlists'),
+    url(r'^home/accounts/password_change/$', auth_views.password_change, name='password_change'),
     url(r'^accounts/password_change/$', auth_views.password_change, name='password_change'),
     url(r'^accounts/password_change/done/$', auth_views.password_change_done, name='password_change_done'),
     url(r'^view_all_playlists/$', views.view_all_playlists, name='view_all_playlists'),
