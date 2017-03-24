@@ -10,11 +10,10 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 {% block body %}
     {% if playlist %}
 		{% if playlist.picture %}
-			<img src="{{ playlist.picture.url }} "height='135' width='auto'><br/>
+			<img src="{{ playlist.picture.url }}"><br/>
 		{% else %}
-			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='135' width='auto'><br/>
+			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png"><br/>
 		{% endif %}
-		<br/>
 		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>
 		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/> <br/>
@@ -40,7 +39,7 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 			{% endif %}
 			{% for comment in playlist.comments.all %}
 				<div class="comment">
-					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}<br/>
+					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}
 					{{ comment.created_date }}
 					</p>
 				</div>
@@ -50,7 +49,7 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 
 			{% if user.is_authenticated %}
 				<a class="btn btn-default" href="{% url 'add_rating' playlist.slug %}">Add rating</a>
-				<hr>
+				<br/>
 			{% endif %}
 			
 		{% else %}
@@ -64,7 +63,7 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 
 	{% if user.is_authenticated %}
 		{% if playlist.author == user.username %}
-    		<a class="btn btn-default" href="{% url 'add_song' playlist.slug %}">Add a Song</a> <br/>
+    		<a class="btn btn-default" href="{% url 'add_song' playlist.slug %}">Add a Song</a>
 		{% endif %}
 	{% endif %}
 {% endblock %}
