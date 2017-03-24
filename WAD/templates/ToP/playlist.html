@@ -9,23 +9,23 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 
 {% block body %}
     {% if playlist %}
+		<h1>{{ playlist.name }}</h1>
 		{% if playlist.picture %}
 			<img src="{{ playlist.picture.url }}"><br/>
 		{% else %}
 			<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png"><br/>
 		{% endif %}
-		<h1>{{ playlist.name }}</h1>
 		<strong> Playlist Views: </strong>{{ visits }}<br/>
 		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/> <br/>
 
 		{% if songs %}
 			<ul>
 				{% for song in songs %}
-					<li>
+					<li class="list-group-item list-group-item-warning">
 					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }} "height='135' width='auto'>
 					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto'><br/>
-					{{ song.title }}
-					by {{ song.artist }}<br/>
+					Title: {{ song.title }}<br/>
+					Artist:{{ song.artist }}<br/>
 					Album: {{song.album}}<br/>
 					Genre: {{ song.genre}}<br/>
 					<br/>
@@ -38,11 +38,12 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 				<a class="btn btn-default" href="{% url 'add_comment' playlist.slug %}">Add comment</a>
 			{% endif %}
 			{% for comment in playlist.comments.all %}
+			<li class="list-group-item list-group-item-warning">
 				<div class="comment">
 					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}
-					{{ comment.created_date }}
-					</p>
+					<p>{{ comment.created_date }}</p></p>
 				</div>
+			</li>
 			{% empty %}
 				<p>No comments </p><br/>
 			{% endfor %}
