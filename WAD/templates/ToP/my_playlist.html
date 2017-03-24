@@ -7,11 +7,9 @@
 {% endblock %}
 
 {% block body %}
-<center>
-<div style="postions:relative; height:60px;">
-	<p><span class="user" style="postion:absolute; top:-10px; left:-30px;">{{ username }}</span></p>
-</center>
-	<a href="accounts/password_change/" class="nav-link">Change Password</a>
+<div class="inner cover">
+    <h1>My Playlists</h1>
+</div>
 	<div class="col-lg-12">
 	    {% if playlists %}
 		    <ul class="list-group">

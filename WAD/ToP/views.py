@@ -213,17 +213,13 @@ def my_playlists(request):
     username = User.objects.get(username=request.user)
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
-<<<<<<< HEAD
     try:
         up = UserProfile.objects.get(user=username)
     except:
         up = None
     # List placed into context dictionary that is passed into template engine
     context_dict = {'playlists': playlist_list, 'userprofile': up, 'username': username}
-=======
 	# This list is passed into template and filtered by "author" there
-    context_dict = {'playlists': playlist_list}
->>>>>>> fcc3faf2d2062f180a138b5fc73fb9caa2586f19
     return render(request, 'ToP/my_playlist.html', context_dict)
 
 

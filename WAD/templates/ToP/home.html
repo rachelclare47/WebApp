@@ -13,6 +13,7 @@ an account. If user is logged in, home page informs them of this. </!-->
 		{% if user.is_authenticated %}
 		<p class="lead">Welcome, {{ user.username }}. You are now logged in!</p>
 		<a href="{% url 'auth_logout' %}?next=/ToP" class="btn btn-secondary">Logout</a>
+		<a href="accounts/password_change/" class="nav-link">Change Password</a>
 		{% else %}
             <a href="{% url 'registration_register' %}" class="btn btn-secondary"/>Register Here!</a>
 		{% endif %}

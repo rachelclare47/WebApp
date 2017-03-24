@@ -71,12 +71,8 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
-<<<<<<< HEAD
 	forms.ImageField(help_text="Select a profile picture to upload.", required=False)
-=======
-	
-	
->>>>>>> fcc3faf2d2062f180a138b5fc73fb9caa2586f19
+
 	class Meta:
 		model = UserProfile
 		fields = ('picture',)
