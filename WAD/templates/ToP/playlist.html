@@ -7,7 +7,10 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 	{{ playlist.name }}
 {% endblock %}
 
+
 {% block body %}
+		
+{% if songs %}
     {% if playlist %}
 		<h1>{{ playlist.name }}</h1>
 		{% if playlist.picture %}
@@ -22,9 +25,9 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 			<ul>
 				{% for song in songs %}
 					<li class="list-group-item list-group-item-warning">
-					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }} "height='135' width='auto'>
-					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto'><br/>
-					Title: {{ song.title }}<br/>
+					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }} "height='135' width='auto' align="left">
+					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto' align="left"><br/>
+					<p align="right">Title: {{ song.title }}<br/>
 					Artist:{{ song.artist }}<br/>
 					Album: {{song.album}}<br/>
 					Genre: {{ song.genre}}<br/>
@@ -37,12 +40,13 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 			{% if user.is_authenticated %}
 				<a class="btn btn-default" href="{% url 'add_comment' playlist.slug %}">Add comment</a>
 			{% endif %}
-			{% for comment in playlist.comments.all %}
+			
+			<ul id="commenters">
+			{% for c in playlist.comments.all %}
 			<li class="list-group-item list-group-item-warning">
-				<div class="comment">
-					<p><strong>{{ comment.author }}: </strong>{{ comment.text }}
-					<p>{{ comment.created_date }}</p></p>
-				</div>
+			<p align="left"><strong>{{ c.author }}:</strong></p>
+			<p align="left">{{ c.text }}</p><br/>
+			<p align="left">{{ c.created_date }}</p>
 			</li>
 			{% empty %}
 				<p>No comments </p><br/>
@@ -67,4 +71,12 @@ displayed with the artist's image and album artwork from Spotify. </!-->
     		<a class="btn btn-default" href="{% url 'add_song' playlist.slug %}">Add a Song</a>
 		{% endif %}
 	{% endif %}
+{% else %}
+	<p class="lead">There are currently no songs in this playlist.</p>
+	{% if user.is_authenticated %}
+		{% if playlist.author == user.username %}
+			<a class="btn btn-default" href="{% url 'add_song' playlist.slug %}">Add a Song</a>
+		{% endif %}
+	{% endif %}
+{% endif %}
 {% endblock %}
