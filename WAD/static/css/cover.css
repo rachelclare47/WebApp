@@ -107,6 +107,7 @@ h1 {
 p {
 	padding: 1rem;
 }
+
 @media (min-width: 48em) {
   .masthead-brand {
     float: left;
