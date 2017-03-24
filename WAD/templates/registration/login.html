@@ -1,4 +1,6 @@
 {% extends 'ToP/base.html' %}
+<!--> Template for login screen. Prompts user to enter username and password, and links to password reset
+with 'Forgot Password?'. Also links user to register if not a member. </!-->
 {% block body %}
 	<form class="signin-form" role="form" method="post" action=".">
 		{% csrf_token %}

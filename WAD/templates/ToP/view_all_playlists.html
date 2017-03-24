@@ -1,4 +1,6 @@
 {% extends 'ToP/base.html' %}
+<!--> Displays a list of all created playlists in the database, along with either the
+default cover art or the user-uploaded cover image. The playlist author is also displayed. </!-->
 {% load staticfiles %}
 
 {% block title %}
@@ -23,7 +25,7 @@
 				<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 			{% endif %}	
 			
-			<a href="/ToP/playlist/{{ playlist.slug }}" class="trigger">{{ playlist.name }}</a>
+			<a href="{% url 'show_playlist' playlist.slug %}" class="trigger">{{ playlist.name }}</a>
 				<div class="pop-up" style="display: none">
 					{% if playlist.author %}
 						<p>Author: {{ playlist.author }}</p>

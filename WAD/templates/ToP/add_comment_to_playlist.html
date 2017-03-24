@@ -1,9 +1,12 @@
 {% extends 'ToP/base.html' %}
+<!--> Template for a user comment input form. </!-->
 
 {% block body %}
+
     <h1>New comment</h1>
     <form method="POST" class="post-form">{% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Send</button>
     </form>
+
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'ToP/base.html' %}
+<!--> Displays all of the logged in user's playlists. Also acts as an Account page, allowing the user to change their password. </!-->
 {% load staticfiles %}
 
 {% block title %}
@@ -24,7 +25,7 @@
 								<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 							{% endif %}	
 							
-						    <a href="/ToP/playlist/{{ playlist.slug }}" class="my_playlists">{{ playlist.name }}</a>
+						    <a href="{% url 'show_playlist' playlist.slug %}" class="my_playlists">{{ playlist.name }}</a>
 				        </li>
 				    {% endif %}
 			    {% endfor %}
