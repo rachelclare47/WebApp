@@ -105,25 +105,6 @@ class ShowPlaylistViewTests(TestCase):
         self.assertContains(response, "No songs currently in playlist.")
         self.assertQuerysetEqual(response.context['songs'], [])
 
-    '''def test_show_playlist_with_songs(self):
-        # Make sure that individual playlist page has songs displayed
-        # Create a playlist to put songs into
-        add_p('test', 1, 1)
-        # Create 4 songs
-        add_s('Tonite', 'Infinite', 'Eminem', 'Rap')
-        add_s('Never 2 Far', 'Infinite', 'Eminem', 'Rap')
-        add_s('Backstabber', 'Infinite', 'Eminem', 'Rap')
-        add_s('Jealousy Woes II', 'Infinite', 'Eminem', 'Rap')
-
-        # Check that page loaded and that the response contains the last song created
-        response = self.client.get('/ToP/playlist/test/')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Jealousy Woes II')
-
-        # Check that the context has 4 songs
-        num_of_songs = len(response.context['songs'])
-        self.assertEqual(num_of_songs, 4)'''
-
     def test_show_playlist_view_shows_view_count(self):
         # Make sure that there are views passed through context
         dict = {'visits': 1}
@@ -164,14 +145,6 @@ class MostViewedViewTests(TestCase):
         num_of_playlists = len(response.context['playlists'])
         self.assertEqual(num_of_playlists, 4)
 
-'''class AddCommentViewTests(TestCase):
-    def test_comment_form_passed_to_template(self):
-        # Make sure that a form is passed through the context and page loads
-        add_p('test', 1, 1)
-        response = self.client.get('/ToP/playlist/test/comment/')
-        self.assertEqual(response.status_code, 302)
-        self.assertQuerysetEqual(response.context['form'], form)'''
-
 
 class ViewAllPlaylistsTests(TestCase):
     def test_view_all_view_without_playlists(self):
@@ -198,18 +171,9 @@ class ViewAllPlaylistsTests(TestCase):
         # Check that the context has 4 playlists
         num_of_playlists = len(response.context['playlists'])
         self.assertEqual(num_of_playlists, 4)
+		
 
-
-'''class MyPlaylistsTests(TestCase):
-    def test_my_playlists_has_correct_author(self):
-        add_p('test', 1, 1, 'wadteam1')
-        response = self.client.get(reverse('my_playlists'))
-        self.assertEqual(response.status_code, 302)
-        for p in response.context['playlists']:
-            self.assertEqual(p.author, 'wadteam1')
-        num_of_playlists = len(response.context['playlists'])
-        self.assertEqual(num_of_playlists, 1)'''
-
+# The following tests check whether the urls are loaded/found successfully given the correct conditions/slugs
 class ToPUrlsTests(TestCase):
     def test_password_change_loads_successfully(self):
         response = self.client.get(reverse('password_change'))

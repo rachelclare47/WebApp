@@ -21,6 +21,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+# Configure a model for a playlist object
 class Playlist(models.Model):
     
     name = models.CharField(max_length=128, unique=True)
@@ -28,21 +29,27 @@ class Playlist(models.Model):
     rating = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='playlist_images',blank=True)
     author = models.CharField(max_length=128, unique=False, blank=False)
+	# Slug automatically generated
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+		### Code below is to help with testing
         if self.views < 0:
             self.views = 0
         if self.rating < 0 or self.rating > 5:
             self.rating = 0
+		###
         super(Playlist, self).save(*args, **kwargs)
     
     def __str__(self):
         return self.name
     
 
+# Configure a model for a song object
 class Song(models.Model):
+	
+	# Each song is linked to a playlist through foreign key
     playlists = models.ForeignKey(Playlist)
     title = models.CharField(max_length=128, unique=False)
     album = models.CharField(max_length=128, unique=False)

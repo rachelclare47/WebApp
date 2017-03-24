@@ -5,10 +5,7 @@ django.setup()
 from ToP.models import Playlist, Song
 
 def populate():
-	# Lists of dictionaries containing the Songs we want to add
-	# into each playlist.
-	# Then create a dictionary of dictionaries for the playlists.
-	# This allows us to iterate through each data structure and add data
+	# Create dictionaries of songs with the fields in the model inserted
 
 	chill_songs = [
         {"title": "Little Talks",
@@ -35,6 +32,8 @@ def populate():
 		 "artist": "Super Junior",
          "album": "Sexy, Free & Single",
 		 "genre": "K-Pop",} ]
+
+	# Create a playlist dictionary of dictionaries, putting the created songs into the playlists
 	
 	playlists = {"Chill": {"songs": chill_songs, "author": "wadteam1"},
 				 "Hip Hop": {"songs": hiphop_songs, "author": "wadteam1"},

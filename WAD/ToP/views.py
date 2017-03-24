@@ -201,7 +201,7 @@ def add_rating(request, playlist_name_slug):
 def view_all_playlists(request):
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
-    # List placed into context dictionary that is passed into template engine
+	# Pass ordered list into dictionary and into template
     context_dict = {'playlists': playlist_list}
 
     return render(request, 'ToP/view_all_playlists.html', context_dict)
@@ -212,7 +212,7 @@ def view_all_playlists(request):
 def my_playlists(request):
     # Get a list of all playlists currently stored and order by name ascending
     playlist_list = Playlist.objects.order_by('name')
-    # List placed into context dictionary that is passed into template engine
+	# This list is passed into template and filtered by "author" there
     context_dict = {'playlists': playlist_list}
     return render(request, 'ToP/my_playlist.html', context_dict)
 
@@ -224,16 +224,19 @@ def create_playlist(request):
 	if request.method == 'POST':
 		form = PlaylistForm(request.POST,request.FILES)
 		
-		#	Valid form?
+		# Valid form?
 		if form.is_valid():
+			# Save form to a profile instance
 			profile = form.save(commit=False)
+			# Get the author for the profile instance
 			profile.author = request.user.username
+			# Save the information
 			profile.save()
 			return home(request)
 		else:
 			print(form.errors)
-
-	# Render form with	error messages,	if any
+			
+	# Render the form with the error messages if there are any
 	return	render(request,	'ToP/create_playlist.html',	{'form': form})
 
 @login_required
