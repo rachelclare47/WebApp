@@ -31,8 +31,17 @@ spotify = spotipy.Spotify()
 
 
 def home(request):
-	playlist_list = Playlist.objects.order_by("views")[:1]
-	context_dict = {'playlists': playlist_list}
+        context_dict = {}
+        playlist_list = Playlist.objects.order_by("-views")[:1]
+        for playlist in playlist_list:
+                top_viewed=Playlist.objects.get(name=playlist.name)
+	context_dict ['most_viewed']= top_viewed
+
+	playlist_list = Playlist.objects.order_by("-rating")[:1]
+        for playlist in playlist_list:
+                top_rated=Playlist.objects.get(name=playlist.name)
+	context_dict ['playlists_ratings'] =  top_rated
+
 	response = render(request, 'ToP/home.html', context = context_dict)
 	return response
 
@@ -102,39 +111,39 @@ def show_playlist(request, playlist_name_slug):
                                 checksum=song.artist_art
                             else:
                                 checksum=song.artist_art
-                                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")  
+                                testfile.retrieve(song.artist_art,BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg")
                                 song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
                         else:
-                            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"                
+                            song.artist_art='\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"
                             context_dict['artist_art']=song.artist_art
 
                         if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):
-                                  #Album Art 
+                                  #Album Art
                                   results = spotify.search(q='album:' + song.album, type='album')
                                   items = results['albums']['items']
                                   for item in items:
                                       if item.get(song.album)==song.album:
-                                              print 
+                                              print
                                               if item.get(song.artist)==song.artist:
                                                         album = item
                                       else:
                                           album = items[0]
                                           flag = 1
                                       song.album_art =album['images'][0]['url']
-                                      
+
                                       if song.album_art == checksum and song.album!=check_artist and flag==1:
                                           song.album_art=BASE_DIR+"\media\\vinyl-883199_960_720.png"
                                           album_checksum=song.album_art
                                       else:
                                           album_checksum=song.album_art
 
-                                      if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):        
+                                      if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):
                                             testfile.retrieve(song.album_art,BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg")
                                             song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
                         else:
                                 song.album_art='\media\\'+"album_art\\"+str(song.album)+"_art.jpg"
                                 context_dict['album_art']=song.album_art
-                                
+
         #Gets the average rating
         context_dict['rating'] = ratings
         total_rating=0
@@ -157,7 +166,7 @@ def show_playlist(request, playlist_name_slug):
         context_dict['playlist'] = None
         context_dict['songs'] = None
 
-    
+
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
 
@@ -226,10 +235,10 @@ def my_playlists(request):
 @login_required
 def create_playlist(request):
 	form =	PlaylistForm()
-	
+
 	if request.method == 'POST':
 		form = PlaylistForm(request.POST,request.FILES)
-		
+
 		# Valid form?
 		if form.is_valid():
 			# Save form to a profile instance
@@ -241,7 +250,7 @@ def create_playlist(request):
 			return home(request)
 		else:
 			print(form.errors)
-			
+
 	# Render the form with the error messages if there are any
 	return	render(request,	'ToP/create_playlist.html',	{'form': form})
 

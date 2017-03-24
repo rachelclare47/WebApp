@@ -11,15 +11,41 @@ an account. If user is logged in, home page informs them of this. </!-->
         <h1 class="cover-heading">Top of The Playlists</h1>
 		<p class="lead">Top of the Playlists is a resource for all music lovers to share their favourite playlists.</p>
 		{% if user.is_authenticated %}
-		<p class="lead">Welcome, {{ user.username }}. You are now logged in!</p>
-		<a href="{% url 'auth_logout' %}?next=/ToP" class="btn btn-secondary">Logout</a>
-		<a href="accounts/password_change/" class="nav-link">Change Password</a>
+
 		{% else %}
             <a href="{% url 'registration_register' %}" class="btn btn-secondary"/>Register Here!</a>
 		{% endif %}
-	</div><br />
-	
+		</div><br />	
+					<h2>Most Viewed Playlist</h2>
+					<ul class="list-group">
+					<li class="list-group-item list-group-item-warning">
+					{% if most_viewed.picture %}
+						<img src="{{ most_viewed.picture.url }} "height='75' width='auto'>
+					{% else %}
+						<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
+					{% endif %}
+					<a href="/ToP/playlist/{{ most_viewed.slug }}" class="playlists">{{ most_viewed.name }}</a>
+					</ul>
+					
+					
+					<h2>Number 1 Playlist</h2>
+					<ul class="list-group">
+					<li class="list-group-item list-group-item-warning">
+					{% if playlists_ratings.picture %}
+						<img src="{{ playlists_ratings.picture.url }} "height='75' width='auto'>
+					{% else %}
+						<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
+					{% endif %}
+					 <a href="/ToP/playlist/{{ playlists_ratings.slug }}" class="playlists">{{ playlists_ratings.name }}</a>
+					 </ul>
+					 
+					 
+					
+		
+	<p>
 	{% if user.is_authenticated %}
+	<p class="lead">Welcome, {{ user.username }}. You are now logged in!</p>
+	<a href="{% url 'auth_logout' %}?next=/ToP" class="btn btn-secondary">Logout</a>
 	{% else %}
 	<div class="mastfoot">
 		<div class="inner">
@@ -27,4 +53,5 @@ an account. If user is logged in, home page informs them of this. </!-->
 		</div>
     </div>
 	{% endif %}
+	</p>
 {% endblock %}
