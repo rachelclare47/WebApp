@@ -23,7 +23,7 @@
 				<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 			{% endif %}	
 			
-			<a href="/ToP/playlist/{{ playlist.slug }}" class="trigger">{{ playlist.name }}</a>
+			<a href="{% url 'show_playlist' playlist.slug %}" class="trigger">{{ playlist.name }}</a>
 				<div class="pop-up" style="display: none">
 					{% if playlist.author %}
 						<p>Author: {{ playlist.author }}</p>

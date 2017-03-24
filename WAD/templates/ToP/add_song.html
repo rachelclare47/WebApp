@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
+
     {% if playlist %}
         <form role="form" id="song_form" method="post" action="/ToP/playlist/{{ playlist.slug }}/add_song/">
-		<h2 class="form-signing-heading">Add a Song to <a href="/ToP/playlist/{{ playlist.slug }}/">{{ playlist.name }}</a></h2>
+		<h2 class="form-signing-heading">Add a Song to <a href="{% url 'show_playlist' playlist.slug %}">{{ playlist.name }}</a></h2>
 		{% csrf_token %}
 		{% for hidden in form.hidden_fields %}
 			{{ hidden }}
@@ -23,4 +24,5 @@
     {% else %}
         <strong>A playlist by this name does not exist.</strong>
     {% endif %}
+
 {% endblock %}

@@ -34,7 +34,7 @@
 			<hr>
 		
 			{% if user.is_authenticated %}
-				<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/comment/">Add comment</a>
+				<a class="btn btn-default" href="{% url 'add_comment' playlist.slug %}">Add comment</a>
 			{% endif %}
 			{% for comment in playlist.comments.all %}
 				<div class="comment">
@@ -47,7 +47,7 @@
 			{% endfor %}
 
 			{% if user.is_authenticated %}
-				<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/rating/">Add rating</a>
+				<a class="btn btn-default" href="{% url 'add_rating' playlist.slug %}">Add rating</a>
 				<hr>
 			{% endif %}
 			
@@ -62,7 +62,7 @@
 
 	{% if user.is_authenticated %}
 		{% if playlist.author == user.username %}
-    		<a class="btn btn-default" href="/ToP/playlist/{{ playlist.slug }}/add_song/">Add a Song</a> <br/>
+    		<a class="btn btn-default" href="{% url 'add_song' playlist.slug %}">Add a Song</a> <br/>
 		{% endif %}
 	{% endif %}
 {% endblock %}
