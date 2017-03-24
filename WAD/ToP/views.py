@@ -29,7 +29,8 @@ import shutil
 
 spotify = spotipy.Spotify()
 
-
+#The home page view displays login information and registration info, however the view mainly
+# handles the Nuber one and top viewed playlists which are also displayed.
 def home(request):
         context_dict = {}
         playlist_list = Playlist.objects.order_by("-views")[:1]
@@ -45,14 +46,14 @@ def home(request):
 	response = render(request, 'ToP/home.html', context = context_dict)
 	return response
 
-
+#The top rated(or top 40) page displays the 40 most highly rated playlists in descending order
 def top_rated(request):
     playlist_list = Playlist.objects.order_by("-rating")[:40]
     context_dict = {'playlists': playlist_list}
     response = render(request, 'ToP/top_rated.html', context=context_dict)
     return response
 
-
+#The most viewed page displays the 40 most viewed playlists in descending order
 def most_viewed(request):
     playlist_list = Playlist.objects.order_by("views")[:40]
     context_dict = {'playlists': playlist_list}
@@ -96,7 +97,8 @@ def show_playlist(request, playlist_name_slug):
                 break
         testfile = urllib.URLopener()
 
-        # Artist Art
+        # Artist Art: checks wheter the file is in the media folder, otherwise
+        # the file is fetched from spotify
         for song in songs:
               if song!=None:
                         if not os.path.exists(BASE_DIR+'\media\\'+"artist_art\\"+str(song.artist)+"_art.jpg"):
@@ -118,7 +120,8 @@ def show_playlist(request, playlist_name_slug):
                             context_dict['artist_art']=song.artist_art
 
                         if not os.path.exists(BASE_DIR+'\media\\'+"album_art\\"+str(song.album)+"_art.jpg"):
-                                  #Album Art
+                                  #Album Art : checks wheter the file is in the media folder, otherwise
+                                  # the file is fetched from spotify. The spotify search returns an albums image url.
                                   results = spotify.search(q='album:' + song.album, type='album')
                                   items = results['albums']['items']
                                   for item in items:
@@ -176,6 +179,7 @@ def show_playlist(request, playlist_name_slug):
 
 
 @login_required
+#Adds a comment to the playlist page desired
 def add_comment_to_playlist(request, playlist_name_slug):
     playlist = Playlist.objects.get(slug=playlist_name_slug)
     if request.method == "POST":
@@ -192,6 +196,7 @@ def add_comment_to_playlist(request, playlist_name_slug):
 
 
 @login_required
+#Adds a rating to the playlist page desired
 def add_rating(request, playlist_name_slug):
     playlist = Playlist.objects.get(slug=playlist_name_slug)
     if request.method == "POST":
