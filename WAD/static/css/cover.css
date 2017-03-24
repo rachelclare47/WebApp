@@ -205,3 +205,21 @@ img {
 	color: #ff9966;
 	text-shadow: none;
 }
+
+/* Home page playlists */
+#home_viewed {
+    width: 50%;
+    margin-left: 165px;
+}
+
+#home_rated {
+    width: 50%;
+    margin-left: 165px;
+}
+
+/*Individual playlist */
+#individual_p_list {
+    margin-left: 50px;
+    margin-right: 50px;
+    
+}

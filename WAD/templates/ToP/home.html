@@ -17,27 +17,27 @@ an account. If user is logged in, home page informs them of this. </!-->
 		{% endif %}
 		</div><br />	
 					<h2>Most Viewed Playlist</h2>
-					<ul class="list-group">
+					<ul class="list-group" id="home_viewed">
 					<li class="list-group-item list-group-item-warning">
 					{% if most_viewed.picture %}
 						<img src="{{ most_viewed.picture.url }} "height='75' width='auto'>
 					{% else %}
 						<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 					{% endif %}
-					<a href="/ToP/playlist/{{ most_viewed.slug }}" class="playlists">{{ most_viewed.name }}</a>
+					<a href="/ToP/playlist/{{ most_viewed.slug }}" class="trigger">{{ most_viewed.name }}</a>
 					</ul>
 					
 					
 					<h2>Number 1 Playlist</h2>
-					<ul class="list-group">
+					<ul class="list-group" id="home_rated">
 					<li class="list-group-item list-group-item-warning">
 					{% if playlists_ratings.picture %}
 						<img src="{{ playlists_ratings.picture.url }} "height='75' width='auto'>
 					{% else %}
 						<img src="{{ MEDIA_URL }}vinyl-883199_960_720.png "height='75' width='auto'>
 					{% endif %}
-					 <a href="/ToP/playlist/{{ playlists_ratings.slug }}" class="playlists">{{ playlists_ratings.name }}</a>
-					 </ul>
+					 <a href="/ToP/playlist/{{ playlists_ratings.slug }}" class="trigger">{{ playlists_ratings.name }}</a>
+					</ul>
 					 
 					 
 					

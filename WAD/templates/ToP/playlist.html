@@ -22,16 +22,17 @@ displayed with the artist's image and album artwork from Spotify. </!-->
 		<strong> Playlist Rating: </strong>{{ playlist.rating }}<br/> <br/>
 
 		{% if songs %}
-			<ul>
+			<ul id="individual_p_list">
 				{% for song in songs %}
 					<li class="list-group-item list-group-item-warning">
-					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }} "height='135' width='auto' align="left">
-					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }} "height='135' width='auto' align="left"><br/>
-					<p align="right">Title: {{ song.title }}<br/>
+					<img src="{{ ARTIST_MEDIA_URL }}{{ song.artist_art }}"><br/>
+					<p>
+					Title: {{ song.title }}<br/>
 					Artist:{{ song.artist }}<br/>
 					Album: {{song.album}}<br/>
 					Genre: {{ song.genre}}<br/>
-					<br/>
+					</p>
+					<img src="{{ ARTIST_MEDIA_URL }}{{ song.album_art }}">
 					</li>
 				{% endfor %}
 			</ul>
