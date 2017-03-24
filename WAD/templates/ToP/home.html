@@ -11,7 +11,6 @@ an account. If user is logged in, home page informs them of this. </!-->
         <h1 class="cover-heading">Top of The Playlists</h1>
 		<p class="lead">Top of the Playlists is a resource for all music lovers to share their favourite playlists.</p>
 		{% if user.is_authenticated %}
-
 		{% else %}
             <a href="{% url 'registration_register' %}" class="btn btn-secondary"/>Register Here!</a>
 		{% endif %}
@@ -45,6 +44,7 @@ an account. If user is logged in, home page informs them of this. </!-->
 	<p>
 	{% if user.is_authenticated %}
 	<p class="lead">Welcome, {{ user.username }}. You are now logged in!</p>
+	<a href="accounts/password_change/" class="nav-link">Change Password</a>
 	<a href="{% url 'auth_logout' %}?next=/ToP" class="btn btn-secondary">Logout</a>
 	{% else %}
 	<div class="mastfoot">
