@@ -285,18 +285,12 @@ def add_song(request, playlist_name_slug):
 
 
 def register(request):
-    # A boolean value for telling the template whether
-    # the registration was successful.
-    # Set to False initially. I the registration is
-    # successful it is changed to True.
+    # This boolean value is used to inform the template if
+    # the registration was successful
+    # Set to true if the registration is successful.
     registered = False
 
-    # If it's a HTTP Post method then we are interested in processing the
-    # form data
     if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-        # Note that we make use of both the user form and the user
-        # profiile form.
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
@@ -305,41 +299,30 @@ def register(request):
             # Save the users form data to the database
             user = user_form.save()
 
-            # Now we hash the password with the set_password method.
-            # Once hashed, we can update the user object.
+            # Use the set_password() method to has the password and update the
+            # user
             user.set_password(user.password)
             user.save()
 
-            # Now sort out the UserProfle instance
-            # Since we need to set the user attribute ourselves,
-            # we set commit=False. This delays saving the model
-            # until we're ready to avoid integrity problems.
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            # Did the user provide a profile picture?
-            # If so we need to get it from the user profile form and
-            # put it in the UserProfile model.
             if 'picture' in request.files:
                 profile.picture = request.FILES['picture']
 
-            # Now we save the UserProfile model instance
+            # Save the instance of the user profile model
             profile.save()
 
-            # Update our variable to indicate that the template
-            # registration was successful
+            # Set registered = True to ideicate to the template that the user
+            # has been registered.
             registered = True
         else:
-            # invalid form or forms - mistakes or something else?
-            # print problems to the terminal
             print(user_form.errors, profile_form.errors)
     else:
-        # Not a HTTP POST, so we render our form using two ModelForm instances
-        # These forms will be blank, ready for user input.
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    # render the template depending on the context
+    # render the template
     return render(request, 'registration/registration_form.html',
                   {'user_form': user_form,
                    'profile_form': profile_form,
@@ -354,25 +337,23 @@ def user_login(request):
 
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct
-        # If we have None, no user with those credentials was found
+        # If the given username and password match to a user object then the credentials are correct
+        # however if None is returned then they are not and so they cannot log in
         if user:
-            # Is the account active? It could have been disabled
+            # Check that the account has not been disabled
             if user.is_active:
-                # If the user is active and valid, we can log the user in.
-                # We'll send the user back to the homepage
+                # If the account is enabled and the credentials are correct, then the user can log in
+                # Once logged in they are redirected back to the homepage
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('home'))
             else:
-                # An inactive account was used, no logging in!
+                # A disabled account was used and so the user cannot log in
                 return HttpResponse("This account has been disabled.")
         else:
-            # Bad login details were provided, so we can't log the user in.
+            # the username and password was incorrect
             print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details provided.")
 
-    # The request is not a HTTP POST, so we display the login form
-    # This scenario would most likely be a HTTP GET
     else:
         return render, 'registration/auth_login.html', {}
 

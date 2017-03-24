@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     # Links UserProfile to a User model instance
     user = models.OneToOneField(User)
     
-    # Additional attributes
+    # Additionally adds the picture attribute
     picture = models.ImageField(upload_to='profile_images', blank=True)
     
     def __str__(self):
